@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+<link rel="import" href="./nickel-import.html">
+
+<dom-module id="nickel-invoke">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "nickel-invoke",
+            properties: {
+               operationId: {
+                  type: String
+               },
+               data: {
+                  type: Object,
+                  value: {}
+               },
+               lastResponse: {
+                  type: Object,
+                  notify: true
+               }
+            },
+            // setMockedOperation(operation){
+            //    window.NativeBridge.mockedOperations[this.operationId] = operation;
+            // },
+            generateRequest: function() {
+               window.NativeBridge.postMessage(this.operationId, this.data, (response) => {
+                  this.lastResponse = response;
+                  this.fire("response", response);
+               });
+            }
+        });
+    </script>
+
+</dom-module>

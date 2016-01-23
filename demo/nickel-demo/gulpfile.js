@@ -18,8 +18,14 @@ var stripDebug = require('gulp-strip-debug');
 var distDir = '../NickelDemo-iOS/www';
 var appDir = './';
 
+
+gulp.task('copy-nickel-elements', function () {
+	return gulp.src(['../../*.html', '../../*.js'])
+		.pipe(gulp.dest('./bower_components/nickel-elements/'));
+});
+
 gulp.task('default', function (callback) {
-	runSequence('vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
+	runSequence('copy-nickel-elements', 'vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
 		callback);
 });
 

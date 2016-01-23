@@ -10,16 +10,11 @@ PODS:
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
-  - NickelSwift (from `https://github.com/riana/NickelSwift.git`)
+  - NickelSwift (from `~/Documents/projects/riana.io/Nickel/NickelSwift`)
 
 EXTERNAL SOURCES:
   NickelSwift:
-    :git: https://github.com/riana/NickelSwift.git
-
-CHECKOUT OPTIONS:
-  NickelSwift:
-    :commit: fbcce6aa147f14ebfdc7d3e69ed5a3f86709181f
-    :git: https://github.com/riana/NickelSwift.git
+    :path: ~/Documents/projects/riana.io/Nickel/NickelSwift
 
 SPEC CHECKSUMS:
   NickelSwift: e05eaf13a5bb39825b15deffb09c4f79d39adebd

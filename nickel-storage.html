@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!--Imports go here-->
+
+<link rel="import" href="./nickel-invoke.html">
+
+<dom-module id="nickel-storage">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-storage",
+
+         save: function(type, object, indexedAttributes, callback) {
+            if (!object._id) {
+               object._id = this._newUId();
+            }
+            var data = {
+               type: type,
+               id: object._id,
+               indexed: indexedAttributes,
+               data: JSON.stringify(object)
+            };
+            window.NickelBridge.postMessage("storeObject", data, (response) => {
+               if (callback) {
+                  callback();
+               }
+            });
+         },
+         delete: function(type, object, callback) {
+            if (object._id) {
+               var data = {
+                  type: type,
+                  id: object._id
+               };
+               window.NickelBridge.postMessage("deleteObject", data, (response) => {
+                  if (callback) {
+                     callback();
+                  }
+               });
+            }
+         },
+         loadAll(type, callback) {
+            var data = {
+               type: type
+            };
+            window.NickelBridge.postMessage("loadAllObjects", data, (response) => {
+               var loadedData = JSON.parse(response.data);
+               callback(loadedData);
+            });
+         },
+         _newUId: function() {
+            return this._random4() + this._random4() + '-' + this._random4() + '-' + this._random4() + '-' +
+               this._random4() + '-' + this._random4() + this._random4() + this._random4();
+         },
+
+         _random4: function() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+         }
+
+      });
+   </script>
+
+</dom-module>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+<link rel="import" href="./nickel-import.html">
+
+<dom-module id="nickel-callback">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-callback",
+         properties: {
+            operationId: {
+               type: String,
+               observer: "_propertiesChanged"
+            },
+            lastReceivedData: {
+               type: Object,
+               notify: true
+            }
+         },
+         _propertiesChanged: function() {
+            if (this.operationId) {
+               window.NativeBridge.operationCallbacks[this.operationId] = (data) => {
+                  this.lastReceivedData = data;
+                  this.fire("receive-data", data);
+               };
+            }
+         },
+         _internalCallback: function(data) {
+            this.lastReceivedData = data;
+            this.fire("receive-data", data);
+         }
+      });
+   </script>
+
+</dom-module>

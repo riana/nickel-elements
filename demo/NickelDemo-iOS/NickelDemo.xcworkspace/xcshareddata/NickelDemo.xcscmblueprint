@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3870457A2ECC7B47E43857D264D9A108AD01EDDA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3870457A2ECC7B47E43857D264D9A108AD01EDDA" : 0,
+    "B8A39BD18385D908E0088A53648E3687B47F584B" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F0594871-4D7D-4504-B588-DAC5E4A49D54",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3870457A2ECC7B47E43857D264D9A108AD01EDDA" : "nickel-elements\/",
+    "B8A39BD18385D908E0088A53648E3687B47F584B" : "NickelSwift\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "NickelDemo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "demo\/NickelDemo-iOS\/NickelDemo.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:riana\/nickel-elements.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3870457A2ECC7B47E43857D264D9A108AD01EDDA"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:riana\/NickelSwift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B8A39BD18385D908E0088A53648E3687B47F584B"
+    }
+  ]
+}
