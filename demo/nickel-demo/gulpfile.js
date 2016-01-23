@@ -132,7 +132,7 @@ gulp.task('minify-js', function () {
 });
 
 gulp.task('remove-temp', function () {
-	return gulp.src([distDir + '/index.v.*', 'build/vulcanized'], {
+	return gulp.src([distDir + '/index.v.*', 'build'], {
 			read: false
 		})
 		.pipe(rimraf({
