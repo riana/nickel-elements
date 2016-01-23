@@ -1,2 +1,6 @@
 bower_components
 node_modules
+demo/NickelDemo-iOS/NickelDemo.xcworkspace/xcuserdata
+demo/NickelDemo-iOS/NickelDemo.xcodeproj/project.xcworkspace/xcuserdata
+demo/NickelDemo-iOS/NickelDemo.xcodeproj/xcuserdata
+demo/NickelDemo-iOS/Pods
