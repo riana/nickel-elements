@@ -22,8 +22,8 @@ class ViewController: NickelWebViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // The wiew has loaded
-    override func didFinishLoading() {
+    // Register features here
+    override func doRegisterFeatures() {
 
         
     }
