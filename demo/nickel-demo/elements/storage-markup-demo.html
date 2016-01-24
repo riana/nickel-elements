@@ -143,6 +143,7 @@
          },
          _editObject: function(e) {
             var item = e.model.obj;
+            this.startRippleTransition(e, e.target);
             this.fire('edit-object', item)
          },
 
