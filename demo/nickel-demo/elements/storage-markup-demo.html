@@ -4,11 +4,12 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
-<link rel="import" href="../bower_components/nickel-elements/nickel-storage-behavior.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-storage-collection.html">
 <!--Imports go here-->
 
-<dom-module id="nickel-demo-app">
+<dom-module id="storage-markup-demo">
 
    <template>
       <style is="custom-style">
@@ -27,6 +28,9 @@
          }
       </style>
 
+      <nickel-storage-collection id="storage" auto-reload data="{{objects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
+
+
       <!--Template goes here-->
       <div class="filler"></div>
 
@@ -41,23 +45,33 @@
             <div>{{obj.label}}</div>
          </paper-material>
       </template>
+
+      <paper-toast id="toast" text="Data updated!" duration="1000"></paper-toast>
    </template>
 
    <script>
       "use strict";
       Polymer({
-         is: "nickel-demo-app",
-         behaviors: [NickelBehaviors.StorageBehavior],
+         is: "storage-markup-demo",
          properties: {
+
             objects: {
-               type: Array
+               type: Array,
+               value:[]
+            },
+
+            indexedAttributes: {
+               type: Array,
+               value: ['label', 'value']
             }
+
          },
          ready: function() {
             this.debounce('loadData', () => {
-               this._loadAllObjects();
+               this.$.storage.update();
             }, 1000);
          },
+
          _storeObject: function() {
             if (!this.currentId) {
                this.currentId = this.objects.length + 1;
@@ -67,26 +81,19 @@
                value: this.currentId
             }
             this.currentId++;
-            // Use the StorageBehavior
-            this.save("TodoItem", data, ['label', 'value'], () => {
-               this._loadAllObjects();
-            });
-         },
-         _loadAllObjects: function() {
-            // Use the StorageBehavior
-            this.loadAll("TodoItem", (data) => {
-               if(this.objects){
-                  delete this.objects;
-               }
-               this.objects = data;
-            });
+            // Use the StorageMarkup
+            this.$.storage.store(data);
+
          },
          _deleteObject: function(e) {
             var item = e.model.obj;
-            // Use the StorageBehavior
-            this.delete("TodoItem", item, () => {
-               this._loadAllObjects();
-            });
+            // Use the StorageMarkup
+            this.$.storage.remove(item);
+
+         },
+
+         _dataUpdated: function(e) {
+            this.$.toast.open();
          }
       });
    </script>

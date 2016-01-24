@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="./nickel-storage-behavior.html">
+
+<dom-module id="nickel-storage-collection">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-storage-collection",
+         behaviors: [NickelBehaviors.StorageBehavior],
+         properties: {
+            data: {
+               type: Array,
+               notify: true
+            },
+            path: {
+               type: String,
+               observer: '_reloadData'
+            },
+
+            indexedAttributes: {
+               type: Array,
+               value: []
+            },
+
+            autoReload: {
+               type: Boolean,
+               value: false
+            }
+         },
+         _reloadData: function() {
+            if (this.auto) {
+               this._loadAllObjects();
+            }
+         },
+
+         update: function() {
+            this._loadAllObjects();
+         },
+
+         _loadAllObjects: function() {
+            if (this.path) {
+               // Use the StorageBehavior
+               this.loadAll(this.path, (data) => {
+                  if (this.objects) {
+                     delete this.data;
+                  }
+                  this.data = data;
+                  this.fire('data-updated', this.data);
+               });
+            }
+         },
+
+         remove: function(item, callback) {
+            this.delete(this.path, item, () => {
+               if (callback) {
+                  callback();
+               }
+               if(this.autoReload){
+                  this.update();
+               }
+            });
+         },
+
+         store: function(item, callback) {
+            this.save(this.path, item, this.indexedAttributes, () => {
+               if (callback) {
+                  callback();
+               }
+               if(this.autoReload){
+                  this.update();
+               }
+            });
+         }
+
+      });
+   </script>
+
+</dom-module>
