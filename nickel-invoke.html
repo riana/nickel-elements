@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <link rel="import" href="../polymer/polymer.html">
 <!--Imports go here-->
-<link rel="import" href="./nickel-import.html">
+<link rel="import" href="./nickel-bridge-behavior.html">
 
 <dom-module id="nickel-invoke">
 
@@ -20,6 +20,7 @@
       "use strict";
          Polymer({
             is: "nickel-invoke",
+            behaviors: [NickelBehaviors.NativeBridgeBehavior],
             properties: {
                operationId: {
                   type: String
@@ -37,7 +38,7 @@
             //    window.NativeBridge.mockedOperations[this.operationId] = operation;
             // },
             generateRequest: function() {
-               window.NativeBridge.postMessage(this.operationId, this.data, (response) => {
+               this.postMessage(this.operationId, this.data, (response) => {
                   this.lastResponse = response;
                   this.fire("response", response);
                });

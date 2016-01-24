@@ -1,18 +1,24 @@
-"use strict";
-/*global window: false */
-/*global console: false */
-/*esversion: 6*/
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
 
-if (typeof window.NickelBridge == "undefined") {
-	window.NickelBridge = {
+<!-- <script src="./nickel.js" charset="utf-8"></script> -->
+<script>
+   window.NickelBehaviors = window.NickelBehaviors || {};
+   NickelBehaviors.NativeBridgeBehavior = {
 
-		responseCallbacks: [],
+      responseCallbacks: [],
 
 		operationCallbacks: [],
 
 		mockedOperations: [],
 
-		handleMessage: function (data) {
+      ready: function(){
+         if (typeof window.NickelBridge == "undefined") {
+         	window.NickelBridge = this;
+         }
+      },
+
+      handleMessage: function (data) {
 			if (this.responseCallbacks[data.operation]) {
 				this.responseCallbacks[data.operation](data.data);
 				delete this.responseCallbacks[data.operation];
@@ -61,5 +67,5 @@ if (typeof window.NickelBridge == "undefined") {
 			}
 		}
 
-	};
-}
+   }
+</script>

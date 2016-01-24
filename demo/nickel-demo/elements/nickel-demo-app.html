@@ -5,7 +5,7 @@
 
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
 
-<link rel="import" href="../bower_components/nickel-elements/nickel-storage.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-storage-behavior.html">
 <!--Imports go here-->
 
 <dom-module id="nickel-demo-app">
@@ -27,10 +27,9 @@
          }
       </style>
 
-      <nickel-storage id="storage"></nickel-storage>
-
       <!--Template goes here-->
       <div class="filler"></div>
+
       <paper-toolbar>
          <div class="title">Storage Demo</div>
       </paper-toolbar>
@@ -48,6 +47,7 @@
       "use strict";
       Polymer({
          is: "nickel-demo-app",
+         behaviors: [NickelBehaviors.StorageBehavior],
          properties: {
             objects: {
                type: Array
@@ -67,12 +67,14 @@
                value: this.currentId
             }
             this.currentId++;
-            this.$.storage.save("TodoItem", data, ['label', 'value'], () => {
+            // Use the StorageBehavior
+            this.save("TodoItem", data, ['label', 'value'], () => {
                this._loadAllObjects();
             });
          },
          _loadAllObjects: function() {
-            this.$.storage.loadAll("TodoItem", (data) => {
+            // Use the StorageBehavior
+            this.loadAll("TodoItem", (data) => {
                if(this.objects){
                   delete this.objects;
                }
@@ -81,7 +83,8 @@
          },
          _deleteObject: function(e) {
             var item = e.model.obj;
-            this.$.storage.delete("TodoItem", item, () => {
+            // Use the StorageBehavior
+            this.delete("TodoItem", item, () => {
                this._loadAllObjects();
             });
          },

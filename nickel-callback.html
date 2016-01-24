@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <link rel="import" href="../polymer/polymer.html">
 <!--Imports go here-->
-<link rel="import" href="./nickel-import.html">
+<link rel="import" href="./nickel-bridge-behavior.html">
 
 <dom-module id="nickel-callback">
 
@@ -20,6 +20,7 @@
       "use strict";
       Polymer({
          is: "nickel-callback",
+         behaviors: [NickelBehaviors.NativeBridgeBehavior],
          properties: {
             operationId: {
                type: String,
@@ -32,7 +33,7 @@
          },
          _propertiesChanged: function() {
             if (this.operationId) {
-               window.NativeBridge.operationCallbacks[this.operationId] = (data) => {
+               this.operationCallbacks[this.operationId] = (data) => {
                   this.lastReceivedData = data;
                   this.fire("receive-data", data);
                };
