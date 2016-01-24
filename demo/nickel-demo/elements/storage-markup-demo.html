@@ -39,12 +39,14 @@
          }
 
          paper-material {
-            padding: 10px;
-            margin: 5px 10px;
+            padding: 14px;
+            margin: 10px 10px;
          }
 
          paper-fab {
-            margin: 20px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
          }
 
          .empty-message {
@@ -56,6 +58,13 @@
 
          #container {
             overflow: auto;
+            -webkit-overflow-scrolling: touch;
+         }
+
+         .object-label {
+            font-family: "Roboto";
+            font-size: 16px;
+            margin: 2px;
          }
       </style>
 
@@ -70,8 +79,7 @@
             <div id="container" class="flex" hidden$={{objectsEmpty(objects)}}>
                <template is="dom-repeat" items="[[objects]]" as="obj">
                   <paper-material elevation="2" on-click="_editObject">
-                     <div>{{obj.label}}</div>
-                     <div>{{obj._id}}</div>
+                     <div class="object-label">{{obj.label}}</div>
                   </paper-material>
                </template>
             </div>
@@ -129,18 +137,6 @@
          },
 
          _storeObject: function(e) {
-            // if (!this.currentId) {
-            //    this.currentId = this.objects.length + 1;
-            // }
-            // var data = {
-            //    label: 'Item #' + this.currentId,
-            //    value: this.currentId
-            // }
-            // this.currentId++;
-
-            // Use the StorageMarkup
-
-
             this.startRippleTransition(e, this.$.fabButton);
             this.fire("add-object");
 

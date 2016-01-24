@@ -38,7 +38,7 @@
             width:80%;
          }
 
-         #saveButton {
+         paper-button {
             margin: 10px;
          }
 
@@ -50,6 +50,14 @@
          <div class="fit layout vertical center center-justified">
 
             <paper-material id="card" class="layout vertical" elevation="2">
+               <div class="layout horizontal end-justified">
+                  <paper-button on-click="_delete" hidden$="{{_isNewObject(object)}}">
+                     <iron-icon icon="delete"></iron-icon>
+                  </paper-button>
+                  <paper-button on-click="_close" hidden$="{{!_isNewObject(object)}}">
+                     <iron-icon icon="close"></iron-icon>
+                  </paper-button>
+               </div>
                <div class="flex layout vertical center center-justified">
                   <paper-input value="{{text}}"></paper-input>
                </div>
@@ -96,12 +104,18 @@
          _isValid: function(){
             return this.text.length > 0;
          },
+         _isNewObject: function(){
+            return !this.object._id || this.object._id.length === 0;
+         },
          _save: function() {
-            this.object = {
-               label: this.text,
-               value: 0
-            }
+            this.object.label = this.text;
             this.fire('save-object', this.object);
+         },
+         _delete: function() {
+            this.fire('delete-object', this.object);
+         },
+         _close: function() {
+            this.fire('close-editor');
          }
       });
    </script>

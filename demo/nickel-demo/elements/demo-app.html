@@ -31,9 +31,9 @@
 
       <neon-animated-pages selected="{{selectedPage}}" attr-for-selected="id">
 
-            <!-- <storage-behavior-demo></storage-behavior-demo> -->
+         <!-- <storage-behavior-demo></storage-behavior-demo> -->
          <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{objects}}"></storage-markup-demo>
-         <object-editor id="edit" on-save-object="_saveObject"></object-editor>
+         <object-editor id="edit" on-save-object="_saveObject" on-delete-object="_deleteObject" on-close-editor="_backHome"></object-editor>
       </neon-animated-pages>
 
 
@@ -71,12 +71,16 @@
             this.$.edit.editObject(e.detail);
             this.selectedPage = "edit";
          },
-         _saveObject: function(e){
+         _saveObject: function(e) {
             this.$.storage.store(e.detail);
             this.selectedPage = "home";
          },
-         _deleteObject: function(e){
+         _deleteObject: function(e) {
             this.$.storage.remove(e.detail);
+            this.selectedPage = "home";
+         },
+         _backHome: function(e) {
+            this.selectedPage = "home";
          }
       });
    </script>
