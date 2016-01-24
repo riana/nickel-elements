@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+
+<link rel="import" href="./storage-behavior-demo.html">
+<link rel="import" href="./storage-markup-demo.html">
+
+<dom-module id="demo-app">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+         nickel-screen {
+            --filler-background: #3f51b5;
+         }
+      </style>
+
+      <!--Template goes here-->
+
+
+      <nickel-screen>
+         <!-- <storage-behavior-demo></storage-behavior-demo> -->
+         <storage-markup-demo></storage-markup-demo>
+      </nickel-screen>
+
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "demo-app"
+      });
+   </script>
+
+</dom-module>
