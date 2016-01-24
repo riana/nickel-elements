@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
@@ -15,12 +19,31 @@
       <style is="custom-style">
          :host {
             display: block;
+            @apply(--layout-vertical);
+
+            --paper-toolbar-title: {
+               font-family: "Roboto";
+               font-size: 20px;
+               height: 24px;
+            }
          }
 
          paper-material {
             padding: 10px;
             margin: 5px 10px;
          }
+
+         paper-fab {
+            margin: 20px;
+         }
+
+         .empty-message {
+            font-family: "Roboto";
+            color: #aaaaaa;
+            font-style: italic;
+            font-weight: lighter;
+         }
+
       </style>
 
       <nickel-storage-collection id="storage" auto-reload data="{{objects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
@@ -29,14 +52,17 @@
          <div class="title">Storage Markup Demo</div>
       </paper-toolbar>
 
-      <paper-button raised on-click="_storeObject">Add Item</paper-button>
-
-      <template is="dom-repeat" items="[[objects]]" as="obj">
-         <paper-material elevation="2" on-click="_deleteObject">
-            <div>{{obj.label}}</div>
-         </paper-material>
-      </template>
-
+      <div class="flex" hidden$={{objectsEmpty(objects)}}>
+         <template is="dom-repeat" items="[[objects]]" as="obj">
+            <paper-material elevation="2" on-click="_deleteObject">
+               <div>{{obj.label}}</div>
+            </paper-material>
+         </template>
+      </div>
+      <div class="flex layout horizontal center center-justified" hidden$={{!objectsEmpty(objects)}}>
+         <div class="empty-message">Start by adding a new element!</div>
+      </div>
+      <paper-fab class="self-end" icon="icons:add" on-click="_storeObject"></paper-fab>
       <paper-toast id="toast" text="Data updated!" duration="1000"></paper-toast>
    </template>
 
@@ -48,7 +74,7 @@
 
             objects: {
                type: Array,
-               value:[]
+               value: []
             },
 
             indexedAttributes: {
@@ -61,6 +87,10 @@
             this.debounce('loadData', () => {
                this.$.storage.update();
             }, 1000);
+         },
+
+         objectsEmpty: function(){
+            return this.objects.length === 0;
          },
 
          _storeObject: function() {
