@@ -2,9 +2,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
 
 <link rel="import" href="./storage-behavior-demo.html">
 <link rel="import" href="./storage-markup-demo.html">
+<link rel="import" href="./object-editor.html">
 
 <dom-module id="demo-app">
 
@@ -12,19 +14,28 @@
       <style is="custom-style">
          :host {
             display: block;
+            overflow: hidden;
          }
-         nickel-screen {
-            --filler-background: #3f51b5;
+
+         neon-animated-pages {
+            width: 100%;
+            height: 100%;
          }
       </style>
 
       <!--Template goes here-->
 
 
-      <nickel-screen >
-         <!-- <storage-behavior-demo></storage-behavior-demo> -->
-         <storage-markup-demo class="fit"></storage-markup-demo>
-      </nickel-screen>
+      <nickel-storage-collection id="storage" auto-reload data="{{objects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
+
+
+      <neon-animated-pages selected="{{selectedPage}}" attr-for-selected="id">
+
+            <!-- <storage-behavior-demo></storage-behavior-demo> -->
+         <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{objects}}"></storage-markup-demo>
+         <object-editor id="edit" on-save-object="_saveObject"></object-editor>
+      </neon-animated-pages>
+
 
 
    </template>
@@ -32,7 +43,41 @@
    <script>
       "use strict";
       Polymer({
-         is: "demo-app"
+         is: "demo-app",
+         properties: {
+            selectedPage: {
+               type: String,
+               value: "home"
+            },
+            objects: {
+               type: Array,
+               value: []
+            },
+            indexedAttributes: {
+               type: Array,
+               value: ['label', 'value']
+            }
+         },
+         ready: function() {
+            this.debounce('loadData', () => {
+               this.$.storage.update();
+            }, 1000);
+         },
+         _addObject: function(e) {
+            this.$.edit.createObject();
+            this.selectedPage = "edit";
+         },
+         _editObject: function(e) {
+            this.$.edit.editObject(e.detail);
+            this.selectedPage = "edit";
+         },
+         _saveObject: function(e){
+            this.$.storage.store(e.detail);
+            this.selectedPage = "home";
+         },
+         _deleteObject: function(e){
+            this.$.storage.remove(e.detail);
+         }
       });
    </script>
 

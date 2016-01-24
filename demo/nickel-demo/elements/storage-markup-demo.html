@@ -7,10 +7,17 @@
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
+<link rel="import" href="../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-storage-collection.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="./page-transition-behavior.html">
+
 <!--Imports go here-->
 
 <dom-module id="storage-markup-demo">
@@ -20,12 +27,15 @@
          :host {
             display: block;
             @apply(--layout-vertical);
-
             --paper-toolbar-title: {
                font-family: "Roboto";
                font-size: 20px;
                height: 24px;
             }
+         }
+
+         nickel-screen {
+            --filler-background: #3f51b5;
          }
 
          paper-material {
@@ -44,32 +54,43 @@
             font-weight: lighter;
          }
 
+         #container {
+            overflow: auto;
+         }
       </style>
 
-      <nickel-storage-collection id="storage" auto-reload data="{{objects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
 
-      <paper-toolbar>
-         <div class="title">Storage Markup Demo</div>
-      </paper-toolbar>
 
-      <div class="flex" hidden$={{objectsEmpty(objects)}}>
-         <template is="dom-repeat" items="[[objects]]" as="obj">
-            <paper-material elevation="2" on-click="_deleteObject">
-               <div>{{obj.label}}</div>
-            </paper-material>
-         </template>
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <paper-toolbar>
+               <div class="title">Storage Markup Demo</div>
+            </paper-toolbar>
+
+            <div id="container" class="flex" hidden$={{objectsEmpty(objects)}}>
+               <template is="dom-repeat" items="[[objects]]" as="obj">
+                  <paper-material elevation="2" on-click="_editObject">
+                     <div>{{obj.label}}</div>
+                     <div>{{obj._id}}</div>
+                  </paper-material>
+               </template>
+            </div>
+            <div class="flex layout horizontal center center-justified" hidden$={{!objectsEmpty(objects)}}>
+               <div class="empty-message">Start by adding a new element!</div>
+            </div>
+            <paper-fab id="fabButton" class="self-end" icon="icons:add" on-click="_storeObject"></paper-fab>
+            <paper-toast id="toast" text="Data updated!" duration="1000"></paper-toast>
+      </nickel-screen>
       </div>
-      <div class="flex layout horizontal center center-justified" hidden$={{!objectsEmpty(objects)}}>
-         <div class="empty-message">Start by adding a new element!</div>
-      </div>
-      <paper-fab class="self-end" icon="icons:add" on-click="_storeObject"></paper-fab>
-      <paper-toast id="toast" text="Data updated!" duration="1000"></paper-toast>
    </template>
 
    <script>
       "use strict";
       Polymer({
          is: "storage-markup-demo",
+         behaviors: [
+            PageTransitionBehavior
+         ],
          properties: {
 
             objects: {
@@ -77,40 +98,56 @@
                value: []
             },
 
-            indexedAttributes: {
-               type: Array,
-               value: ['label', 'value']
-            }
+
 
          },
          ready: function() {
-            this.debounce('loadData', () => {
-               this.$.storage.update();
-            }, 1000);
+
+            this.sharedElements = {
+               'ripple': this.$.fabButton,
+               'reverse-ripple': this.$.fabButton
+            }
+
+            this.animationConfig = {};
+
+            this.animationConfig.entry = [{
+               name: 'reverse-ripple-animation',
+               id: 'reverse-ripple',
+               toPage: this
+            }];
+
+            this.animationConfig.exit = [{
+               name: 'ripple-animation',
+               id: 'ripple',
+               fromPage: this
+            }];
+
          },
 
-         objectsEmpty: function(){
+         objectsEmpty: function() {
             return this.objects.length === 0;
          },
 
-         _storeObject: function() {
-            if (!this.currentId) {
-               this.currentId = this.objects.length + 1;
-            }
-            var data = {
-               label: 'Item #' + this.currentId,
-               value: this.currentId
-            }
-            this.currentId++;
+         _storeObject: function(e) {
+            // if (!this.currentId) {
+            //    this.currentId = this.objects.length + 1;
+            // }
+            // var data = {
+            //    label: 'Item #' + this.currentId,
+            //    value: this.currentId
+            // }
+            // this.currentId++;
+
             // Use the StorageMarkup
-            this.$.storage.store(data);
+
+
+            this.startRippleTransition(e, this.$.fabButton);
+            this.fire("add-object");
 
          },
-         _deleteObject: function(e) {
+         _editObject: function(e) {
             var item = e.model.obj;
-            // Use the StorageMarkup
-            this.$.storage.remove(item);
-
+            this.fire('edit-object', item)
          },
 
          _dataUpdated: function(e) {

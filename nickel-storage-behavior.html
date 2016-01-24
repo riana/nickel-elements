@@ -9,7 +9,7 @@
    StorageBehaviorImpl = {
 
       save: function(type, object, indexedAttributes, callback) {
-         if (!object._id) {
+         if (!object._id || object._id.length === 0) {
             object._id = this._newUId();
          }
 

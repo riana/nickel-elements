@@ -1,0 +1,88 @@
+
+<link rel="import" href="../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+
+<script>
+   PageTransitionBehaviorImpl = {
+
+      startRippleTransition: function(event, sourceElement){
+
+         this.sharedElements = {
+            'ripple': sourceElement,
+            'reverse-ripple' : sourceElement
+         };
+         this.animationConfig = {};
+
+         this.animationConfig.entry = [{
+            name: 'reverse-ripple-animation',
+            id: 'reverse-ripple',
+            toPage: this
+         }];
+
+         this.animationConfig.exit = [{
+            name: 'ripple-animation',
+            id: 'ripple',
+            fromPage: this
+         }];
+
+         this.animationConfig['exit'][0].gesture = {
+            x: event.x || event.pageX,
+            y: event.y || event.pageY
+         };
+      },
+      setupRippleTargetTransition: function(ripplePlaceholderElement, mainContainer){
+
+         // console.log("ripple : %o, container : %o", ripplePlaceholderElement, mainContainer);
+
+         this.sharedElements = {
+            'ripple': ripplePlaceholderElement,
+            'reverse-ripple': ripplePlaceholderElement
+         };
+
+         this.animationConfig = {};
+
+         this.animationConfig.entry = [{
+            name: 'ripple-animation',
+            id: 'ripple',
+            toPage: this,
+            timing: {
+               duration: 300
+            }
+         }, {
+            name: 'fade-in-animation',
+            node: mainContainer,
+            timing: {
+               delay: 100
+            }
+         }];
+
+         this.animationConfig.exit = [{
+            name: 'opaque-animation',
+            node: ripplePlaceholderElement
+         }, {
+            name: 'fade-out-animation',
+            node: mainContainer,
+            timing: {
+               duration: 0
+            }
+         }, {
+            name: 'reverse-ripple-animation',
+            id: 'reverse-ripple',
+            fromPage: this
+         }];
+      },
+
+      setupEntry: function(entryAnimation) {
+        console.log('setupEntry : %o', this);
+      },
+
+      setupExit: function(entryAnimation) {
+        console.log('setupEntry');
+      }
+   };
+
+   PageTransitionBehavior = [
+      Polymer.NeonSharedElementAnimatableBehavior,
+      PageTransitionBehaviorImpl
+   ];
+</script>

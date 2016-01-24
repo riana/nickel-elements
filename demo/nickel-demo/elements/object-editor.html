@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+
+<link rel="import" href="./page-transition-behavior.html">
+
+<dom-module id="object-editor">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         nickel-screen {
+            --filler-background: #ff4081;
+         }
+
+         #ripplePlaceholder {
+            background: #ff4081;
+            @apply(--layout-fit);
+            overflow: hidden;
+         }
+
+         paper-material {
+            width: 90%;
+            height: 50%;
+            background: white;
+            box-sizing: border-box;
+         }
+
+         paper-input {
+            width:80%;
+         }
+
+         #saveButton {
+            margin: 10px;
+         }
+
+      </style>
+
+      <!--Template goes here-->
+      <nickel-screen>
+         <div id="ripplePlaceholder" class=""></div>
+         <div class="fit layout vertical center center-justified">
+
+            <paper-material id="card" class="layout vertical" elevation="2">
+               <div class="flex layout vertical center center-justified">
+                  <paper-input value="{{text}}"></paper-input>
+               </div>
+               <paper-button id="saveButton" class="self-center" on-click="_save" raised disabled="{{!_isValid(text)}}">Save</paper-button>
+            </paper-material>
+
+         </div>
+
+      </nickel-screen>
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "object-editor",
+         behaviors: [
+            PageTransitionBehavior
+         ],
+         properties: {
+            object: {
+               type: Object,
+               value: {}
+            },
+
+            text: {
+               type: String,
+               value:"",
+               notify: true
+            }
+
+
+         },
+         ready: function() {
+            this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.card);
+         },
+         createObject: function(){
+            this.text = "";
+            console.log("new object");
+         },
+         editObject: function(object){
+            this.object = object;
+            this.text = this.object.label;
+         },
+         _isValid: function(){
+            return this.text.length > 0;
+         },
+         _save: function() {
+            this.object = {
+               label: this.text,
+               value: 0
+            }
+            this.fire('save-object', this.object);
+         }
+      });
+   </script>
+
+</dom-module>
