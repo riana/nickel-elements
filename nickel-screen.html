@@ -3,7 +3,7 @@
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
-<link rel="import" href="./nickel-bridge-behavior.html">
+
 <!--Imports go here-->
 
 <dom-module id="nickel-screen">
@@ -16,17 +16,10 @@
             height: 100%;
             width:100%;
          }
-
-         .filler {
-            height: 20px;
-            background: var(--filler-background);
-            /*background: #3f51b5;*/
-         }
-
       </style>
 
       <!--Template goes here-->
-      <div class="filler" hidden$="{{fillerHidden}}"></div>
+
       <div class="flex relative">
          <content></content>
       </div>
@@ -35,18 +28,7 @@
    <script>
       "use strict";
       Polymer({
-         is: "nickel-screen",
-         behaviors: [NickelBehaviors.NativeBridgeBehavior],
-         properties: {
-            fillerHidden: {
-               type: Boolean,
-               value: true
-            }
-         },
-         ready: function() {
-            console.log(this.getCurrentRuntime());
-            this.fillerHidden = this.getCurrentRuntime() !== 'iOS'
-         }
+         is: "nickel-screen"
       });
    </script>
 

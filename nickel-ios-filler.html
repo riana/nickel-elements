@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./nickel-bridge-behavior.html">
+
+<dom-module id="nickel-ios-filler">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+         .filler {
+            height: 20px;
+            background: var(--filler-background);
+            /*background: #3f51b5;*/
+         }
+
+      </style>
+
+      <!--Template goes here-->
+      <div class="filler" hidden$="{{fillerHidden}}"></div>
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "nickel-ios-filler",
+            behaviors: [NickelBehaviors.NativeBridgeBehavior],
+            properties: {
+               fillerHidden: {
+                  type: Boolean,
+                  value: true
+               }
+            },
+            ready: function() {
+               this.fillerHidden = this.getCurrentRuntime() !== 'iOS'
+            }
+        });
+    </script>
+
+</dom-module>

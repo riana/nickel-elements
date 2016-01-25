@@ -4,8 +4,12 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
 
 <link rel="import" href="./page-transition-behavior.html">
 
@@ -17,7 +21,7 @@
             display: block;
          }
 
-         nickel-screen {
+         nickel-ios-filler {
             --filler-background: #ff4081;
          }
 
@@ -29,39 +33,41 @@
 
          paper-material {
             width: 90%;
-            height: 50%;
+            height: 70%;
             background: white;
             box-sizing: border-box;
          }
 
-         paper-input {
+         paper-input, paper-textarea {
             width:80%;
          }
 
-         paper-button {
+         #saveButton {
             margin: 10px;
+            --paper-fab-background: #3f51b5;
          }
 
       </style>
 
       <!--Template goes here-->
-      <nickel-screen>
-         <div id="ripplePlaceholder" class=""></div>
+      <div id="ripplePlaceholder"></div>
+
+      <nickel-screen id="screen">
+         <nickel-ios-filler></nickel-ios-filler>
          <div class="fit layout vertical center center-justified">
 
             <paper-material id="card" class="layout vertical" elevation="2">
                <div class="layout horizontal end-justified">
-                  <paper-button on-click="_delete" hidden$="{{_isNewObject(object)}}">
-                     <iron-icon icon="delete"></iron-icon>
-                  </paper-button>
-                  <paper-button on-click="_close" hidden$="{{!_isNewObject(object)}}">
-                     <iron-icon icon="close"></iron-icon>
-                  </paper-button>
+                  <paper-icon-button on-click="_delete" hidden$="{{_isNewObject(object)}}" icon="delete">
+                  </paper-icon-button>
+                  <paper-icon-button on-click="_close" hidden$="{{!_isNewObject(object)}}" icon="close">
+                  </paper-icon-button>
                </div>
                <div class="flex layout vertical center center-justified">
-                  <paper-input value="{{text}}"></paper-input>
+                  <paper-input label="Title" value="{{title}}"></paper-input>
+                  <paper-textarea rows="4" label="Details" value="{{details}}"></paper-textarea>
                </div>
-               <paper-button id="saveButton" class="self-center" on-click="_save" raised disabled="{{!_isValid(text)}}">Save</paper-button>
+               <paper-fab id="saveButton" class="self-center" on-click="_save" raised disabled="{{!_isValid(title)}}" icon="check"></paper-fab>
             </paper-material>
 
          </div>
@@ -82,7 +88,13 @@
                value: {}
             },
 
-            text: {
+            title: {
+               type: String,
+               value:"",
+               notify: true
+            },
+
+            details: {
                type: String,
                value:"",
                notify: true
@@ -91,7 +103,7 @@
 
          },
          ready: function() {
-            this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.card);
+            this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.screen);
          },
          createObject: function(){
             this.text = "";
@@ -100,16 +112,18 @@
          },
          editObject: function(object){
             this.object = object;
-            this.text = this.object.label;
+            this.title = this.object.title;
+            this.details = this.object.details;
          },
          _isValid: function(){
-            return this.text.length > 0;
+            return this.title.length > 0;
          },
          _isNewObject: function(){
             return !this.object._id || this.object._id.length === 0;
          },
          _save: function() {
-            this.object.label = this.text;
+            this.object.title = this.title;
+            this.object.details = this.details;
             this.fire('save-object', this.object);
          },
          _delete: function() {
