@@ -81,7 +81,7 @@
             <div id="container" class="flex" hidden$={{objectsEmpty(objects)}}>
                <template is="dom-repeat" items="[[objects]]" as="obj">
                   <paper-material elevation="2" on-click="_editObject">
-                     <div class="object-label">{{obj.label}}</div>
+                     <div class="object-label">{{obj.title}}</div>
                   </paper-material>
                </template>
             </div>

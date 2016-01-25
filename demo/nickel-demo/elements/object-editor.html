@@ -63,7 +63,7 @@
                   <paper-icon-button on-click="_close" hidden$="{{!_isNewObject(object)}}" icon="close">
                   </paper-icon-button>
                </div>
-               <div class="flex layout vertical center center-justified">
+               <div class="flex layout vertical center">
                   <paper-input label="Title" value="{{title}}"></paper-input>
                   <paper-textarea rows="4" label="Details" value="{{details}}"></paper-textarea>
                </div>
@@ -106,7 +106,8 @@
             this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.screen);
          },
          createObject: function(){
-            this.text = "";
+            this.title = "";
+            this.details = ""
             this.object = {};
             console.log("new object");
          },
