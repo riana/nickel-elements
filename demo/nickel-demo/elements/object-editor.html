@@ -26,9 +26,17 @@
          }
 
          #ripplePlaceholder {
-            background: #ff4081;
+
             @apply(--layout-fit);
             overflow: hidden;
+         }
+
+         .ripple-add {
+            background: #ff4081;
+            --filler-background: #ff4081;
+         }
+         .ripple-edit {
+            background: #FFEE58;
          }
 
          paper-material {
@@ -49,11 +57,11 @@
 
       </style>
 
-      <!--Template goes here-->
-      <div id="ripplePlaceholder"></div>
+      <!--Template goes here -->
+      <div id="ripplePlaceholder" class$="{{_computeClass(mode)}}"></div>
 
       <nickel-screen id="screen">
-         <nickel-ios-filler></nickel-ios-filler>
+         <nickel-ios-filler id="iosFiller"></nickel-ios-filler>
          <div class="fit layout vertical center center-justified">
 
             <paper-material id="card" class="layout vertical" elevation="2">
@@ -98,6 +106,11 @@
                type: String,
                value:"",
                notify: true
+            },
+
+            mode: {
+               type: String,
+               value: "create"
             }
 
 
@@ -105,13 +118,25 @@
          ready: function() {
             this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.screen);
          },
+
+         _computeClass: function(){
+            console.log(this.mode);
+            return this.mode === "edit" ? 'ripple-edit' : 'ripple-add';
+         },
+
          createObject: function(){
+            this.mode = 'create';
+            this.$.iosFiller.customStyle['--filler-background'] = '#ff4081';
+this.$.iosFiller.updateStyles();
             this.title = "";
             this.details = ""
             this.object = {};
-            console.log("new object");
+
          },
          editObject: function(object){
+            this.mode= 'edit';
+            this.$.iosFiller.customStyle['--filler-background'] = '#FFEE58';
+            this.$.iosFiller.updateStyles();
             this.object = object;
             this.title = this.object.title;
             this.details = this.object.details;
