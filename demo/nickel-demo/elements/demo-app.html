@@ -26,13 +26,12 @@
       <!--Template goes here-->
 
 
-      <nickel-storage-collection id="storage" auto-reload data="{{objects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
-
+      <nickel-storage-collection id="storage" auto-reload data="{{storedObjects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
 
       <neon-animated-pages selected="{{selectedPage}}" attr-for-selected="id">
 
          <!-- <storage-behavior-demo></storage-behavior-demo> -->
-         <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{objects}}"></storage-markup-demo>
+         <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{storedObjects}}"></storage-markup-demo>
          <object-editor id="edit" on-save-object="_saveObject" on-delete-object="_deleteObject" on-close-editor="_backHome"></object-editor>
       </neon-animated-pages>
 
@@ -49,9 +48,10 @@
                type: String,
                value: "home"
             },
-            objects: {
+            storedObjects: {
                type: Array,
-               value: []
+               value: [],
+               notify: true
             },
             indexedAttributes: {
                type: Array,
@@ -59,13 +59,26 @@
             }
          },
          ready: function() {
+
             this.debounce('loadData', () => {
                this.$.storage.update();
             }, 1000);
+
+            var objects = [];
+            for (var i = 0; i < 5; i++) {
+               objects.push({
+                  title: "object #" + i,
+                  detail: ""
+               });
+            }
+
+            this.storedObjects = objects;
          },
          _addObject: function(e) {
             this.$.edit.createObject();
             this.selectedPage = "edit";
+
+
          },
          _editObject: function(e) {
             this.$.edit.editObject(e.detail);

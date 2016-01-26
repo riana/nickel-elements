@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+
+<dom-module id="nickel-dnd-item">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+      <content></content>
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "nickel-dnd-item",
+
+            properties: {
+              transferedObject: {
+                type: Object
+             }
+
+          }
+        });
+    </script>
+
+</dom-module>

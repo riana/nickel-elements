@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+<script src="../Sortable/Sortable.js" charset="utf-8"></script>
+<!-- <script src="./lib/Sortable.js" charset="utf-8"></script> -->
+
+<dom-module id="nickel-dnd-container">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+      <content></content>
+   </template>
+
+   <script>
+      // Electron
+      if (typeof require === "function") {
+         var Sortable = require("./lib/Sortable.js");
+      }
+      // End Electron
+      "use strict";
+      Polymer({
+         is: "nickel-dnd-container",
+         properties: {
+            targetArray: {
+               type: Array,
+               notify: true
+            },
+            groupId: {
+               type: String,
+               value: "Default Group"
+            },
+            pull: {
+               type: Boolean,
+               value: false
+            },
+            put: {
+               type: Boolean,
+               notify: true,
+               value: false
+            },
+            reorder: {
+               type: Boolean,
+               notify: true,
+               value: false
+            }
+         },
+         ready: function() {
+            "use strict";
+            console.log(this.put + '/' + this.pull);
+            //  console.log(put);
+            var dndSettings = {
+               group: {
+                  name: this.groupId,
+                  pull: this.pull,
+                  put: this.put
+               },
+
+               sort: this.reorder,
+
+               animation: 300,
+
+               onRemove: (evt) => {
+                  this.splice('targetArray', evt.oldIndex, 1);
+                  this.fire('item-pulled', {
+                     index: evt.oldIndex,
+                     item: evt.item.transferedObject
+                  });
+               },
+
+               onAdd: (evt) => {
+                  let newIndex = evt.newIndex;
+                  evt.item.remove();
+                  this.splice('targetArray', newIndex, 0, evt.item.transferedObject);
+                  this.fire('item-pushed', {
+                     index: evt.newIndex,
+                     item: evt.item.transferedObject
+                  });
+               },
+
+               onUpdate: (evt) => {
+                  let newIndex = evt.newIndex;
+                  let oldIndex = evt.oldIndex;
+                  let item1 = this.splice('targetArray', oldIndex, 1);
+                  this.splice('targetArray', newIndex, 0, item1[0]);
+                  this.fire('item-moved', {
+                     fromIndex: oldIndex,
+                     toIndex: newIndex,
+                     item: evt.item.transferedObject
+                  });
+
+               }
+            };
+
+            Sortable.create(this, dndSettings);
+
+         }
+      });
+   </script>
+
+</dom-module>
