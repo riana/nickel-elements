@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+
+<dom-module id="nickel-wheel-picker">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -o-user-select: none;
+         }
+
+         .container {
+            padding: 10px;
+            overflow: hidden;
+         }
+
+         .item {
+            padding: 10px;
+            font-size: 24px;
+            height: 32px;
+         }
+
+         #currentItem {
+            color: blue;
+         }
+         /*.ghost-container {
+            height: 32px;
+            overflow: hidden;
+         }*/
+
+         .nextItem {}
+      </style>
+
+      <!--Template goes here-->
+      <div class="container" on-track="track">
+         <div class="ghost-container">
+            <div id="prevItem" class="item">{{computePrevValue(currentIndex, values)}}</div>
+         </div>
+         <div id="currentItem" class="item">{{computeStringValue(currentIndex, values)}}</div>
+         <div class="ghost-container">
+            <div id="nextItem" class="item">{{computeNextValue(currentIndex, values)}}</div>
+         </div>
+      </div>
+      <!-- <div>{{currentIndex}}</div> -->
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-wheel-picker",
+         properties: {
+            values: {
+               type: Array,
+               value: []
+            },
+            currentIndex: {
+               type: Number,
+               value: 0
+            },
+            prevDy: 0,
+            endReached: false
+         },
+         computeStringValue: function(index, v) {
+            return v[index];
+         },
+         computeNextValue: function(index, v) {
+            let nextIndex = index + 1;
+            return nextIndex < v.length ? v[nextIndex] : ' ';
+         },
+         computePrevValue: function(index, v) {
+            let nextIndex = index - 1;
+            return nextIndex >= 0 ? v[nextIndex] : ' ';
+         },
+         track: function(e) {
+            var state = e.detail.state;
+            var dy = e.detail.dy;
+            if (state === 'end') {
+               // console.log('end');
+               this._translate(0, this.$.currentItem);
+               this._translate(0, this.$.nextItem);
+               this._translate(0, this.$.prevItem);
+            } else if (state === 'start') {
+               // console.log('start');
+               this.prevDy = dy;
+               this.endReached = false;
+            } else if (state === 'track') {
+               let bounds = this.$.currentItem.getBoundingClientRect();
+               if (!this.endReached) {
+
+                  var d = Math.round(Math.abs(dy) % bounds.height);
+                  var prevD = Math.round(Math.abs(this.prevDy) % bounds.height);
+                  // console.log('move : %o, %o', dy, d);
+                  if (prevD > d) {
+                     if (dy < 0) {
+                        this.currentIndex = this.currentIndex + 1;
+                        if (this.currentIndex >= this.values.length) {
+                           this.currentIndex = this.values.length - 1;
+                           this.endReached = true;
+                        }
+                     } else {
+                        this.currentIndex = this.currentIndex - 1;
+                        if (this.currentIndex < 0) {
+                           this.currentIndex = 0;
+                           this.endReached = true;
+                        }
+                     }
+                  }
+               }
+               if (!this.endReached) {
+                  this._translate(dy % bounds.height, this.$.currentItem);
+                  this._translate(dy % bounds.height, this.$.nextItem);
+                  this._translate(dy % bounds.height, this.$.prevItem);
+               }
+               // }
+               this.prevDy = dy;
+            }
+         },
+         _translate: function(translateY, element) {
+            var isWebkit = document.body.style.webkitTransform !== undefined;
+            var transform = "translateY(" + translateY.toString() + "%)";
+            if (isWebkit) {
+               element.style.webkitTransform = transform;
+            } else {
+               element.style.transform = transform;
+            }
+         }
+      });
+   </script>
+
+</dom-module>
