@@ -7,6 +7,7 @@
 <link rel="import" href="./storage-behavior-demo.html">
 <link rel="import" href="./storage-markup-demo.html">
 <link rel="import" href="./object-editor.html">
+<link rel="import" href="./wheel-picker-demo.html">
 
 <dom-module id="demo-app">
 
@@ -29,10 +30,10 @@
       <nickel-storage-collection id="storage" auto-reload data="{{storedObjects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
 
       <neon-animated-pages selected="{{selectedPage}}" attr-for-selected="id">
-
          <!-- <storage-behavior-demo></storage-behavior-demo> -->
          <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{storedObjects}}"></storage-markup-demo>
          <object-editor id="edit" on-save-object="_saveObject" on-delete-object="_deleteObject" on-close-editor="_backHome"></object-editor>
+         <wheel-picker-demo id="wheelPicker"></wheel-picker-demo>
       </neon-animated-pages>
 
 
@@ -46,7 +47,7 @@
          properties: {
             selectedPage: {
                type: String,
-               value: "home"
+               value: "wheelPicker"
             },
             storedObjects: {
                type: Array,

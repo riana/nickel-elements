@@ -13,11 +13,15 @@
             -ms-user-select: none;
             user-select: none;
             -o-user-select: none;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            --separator-color : #90CAF9;
          }
 
          .container {
-            padding: 10px;
             overflow: hidden;
+            width: 100%;
          }
 
          .item {
@@ -27,8 +31,42 @@
          }
 
          #currentItem {
-            color: blue;
+            /*color: blue;*/
          }
+
+         .item-container {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+
+         }
+
+         .selected-item-container {
+            margin: 1px 0px;
+            border-top: 1px solid var(--separator-color);
+            border-bottom: 1px solid var(--separator-color);
+         }
+
+         .mask {
+            position: absolute;
+
+            left: 0;
+            width: 100%;
+            height: 33%;
+            z-index: 10;
+
+         }
+
+         .mask-top {
+            top: 0;
+            background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1));
+         }
+
+         .mask-bottom {
+            bottom: 0;
+            left: 0;
+            background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1));
+         }
+         
          /*.ghost-container {
             height: 32px;
             overflow: hidden;
@@ -38,12 +76,16 @@
       </style>
 
       <!--Template goes here-->
-      <div class="container" on-track="track">
-         <div class="ghost-container">
+      <div class="container relative" on-track="track">
+         <div class="mask mask-top"></div>
+         <div class="mask mask-bottom"></div>
+         <div class="item-container ghost-container relative">
             <div id="prevItem" class="item">{{computePrevValue(currentIndex, values)}}</div>
          </div>
-         <div id="currentItem" class="item">{{computeStringValue(currentIndex, values)}}</div>
-         <div class="ghost-container">
+         <div class="item-container selected-item-container">
+            <div id="currentItem" class="item">{{computeStringValue(currentIndex, values)}}</div>
+         </div>
+         <div class="item-container ghost-container">
             <div id="nextItem" class="item">{{computeNextValue(currentIndex, values)}}</div>
          </div>
       </div>

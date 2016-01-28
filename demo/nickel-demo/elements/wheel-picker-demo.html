@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-wheel-picker.html">
+
+
+<dom-module id="wheel-picker-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+
+         }
+
+         nickel-ios-filler {
+            --filler-background: #3f51b5;
+         }
+
+
+         nickel-wheel-picker {
+            width: 40%;
+            margin: 10px;
+         }
+      </style>
+
+      <!--Template goes here-->
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Wheel Picker Demo</div>
+            </paper-toolbar>
+
+            <div class="flex layout vertical center center-justified">
+               <nickel-wheel-picker current-index="2" values="[[pickerItems]]"></nickel-wheel-picker>
+            </div>
+         </div>
+      </nickel-screen>
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "wheel-picker-demo",
+         properties: {
+            pickerItems: {
+               type: Array,
+               value: ['Banana', 'Apple', 'Orange', 'Kiwi', 'Lemon', 'Mango']
+            }
+         }
+      });
+   </script>
+
+</dom-module>
