@@ -18,15 +18,27 @@ var stripDebug = require('gulp-strip-debug');
 var distDir = '../NickelDemo-iOS/www';
 var appDir = './';
 
+gulp.task('default', function (callback) {
+	runSequence('update-nickel-elements', 'vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
+		callback);
+});
+
+gulp.task('update-nickel-elements', function (callback) {
+	runSequence('delete-nickel-elements', 'copy-nickel-elements', callback);
+});
 
 gulp.task('copy-nickel-elements', function () {
 	return gulp.src(['../../*.html', '../../*.js'])
 		.pipe(gulp.dest('./bower_components/nickel-elements/'));
 });
 
-gulp.task('default', function (callback) {
-	runSequence('copy-nickel-elements', 'vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
-		callback);
+gulp.task('delete-nickel-elements', function () {
+	return gulp.src(['./bower_components/nickel-elements'], {
+			read: false
+		})
+		.pipe(rimraf({
+			force: true
+		}));
 });
 
 gulp.task('clean', function () {
