@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+
+<dom-module id="nickel-wheel-number">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+
+      <nickel-wheel-picker current-index="{{currentValue}}" min-index="{{minValue}}" max-index="{{realMaxValue}}" on-update-items="updateWheel" current-item="{{currentItem}}" next-item="{{nextItem}}" previous-item="{{previousItem}}">
+      </nickel-wheel-picker>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-wheel-number",
+         properties: {
+            currentItem: {
+               type: String,
+               value: ''
+            },
+            minValue: {
+               type: Number,
+               value: 0
+            },
+            maxValue: {
+               type: Number,
+               value: 10
+            },
+            realMaxValue: {
+               type: Number,
+               computed: 'computeRealMax(maxValue)'
+            },
+            nextItem: {
+               type: String,
+               value: ''
+            },
+            previousItem: {
+               type: String,
+               value: ''
+            },
+            currentValue: {
+               type: Number,
+               value: 0,
+               notify: true
+            }
+         },
+
+         ready: function() {
+            this.updateWheel();
+         },
+
+         computeRealMax: function() {
+            return this.maxValue + 1;
+         },
+
+         updateWheel: function(e) {
+            var index = this.currentValue;
+            this.currentItem = `${index}`;
+
+            let nextIndex = index + 1;
+            this.nextItem = nextIndex <= this.maxValue ? `${nextIndex}` : ' ';
+
+            let prevIndex = index - 1;
+            this.previousItem = prevIndex >= this.minValue ? `${prevIndex}` : ' ';
+         }
+      });
+   </script>
+
+</dom-module>

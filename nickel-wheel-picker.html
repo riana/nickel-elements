@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <link rel="import" href="../polymer/polymer.html">
-<!--Imports go here-->
 
 <dom-module id="nickel-wheel-picker">
 
@@ -66,7 +65,7 @@
             left: 0;
             background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1));
          }
-         
+
          /*.ghost-container {
             height: 32px;
             overflow: hidden;
@@ -80,16 +79,15 @@
          <div class="mask mask-top"></div>
          <div class="mask mask-bottom"></div>
          <div class="item-container ghost-container relative">
-            <div id="prevItem" class="item">{{computePrevValue(currentIndex, values)}}</div>
+            <div id="prevItem" class="item">{{previousItem}}</div>
          </div>
          <div class="item-container selected-item-container">
-            <div id="currentItem" class="item">{{computeStringValue(currentIndex, values)}}</div>
+            <div id="currentItem" class="item">{{currentItem}}</div>
          </div>
          <div class="item-container ghost-container">
-            <div id="nextItem" class="item">{{computeNextValue(currentIndex, values)}}</div>
+            <div id="nextItem" class="item">{{nextItem}}</div>
          </div>
       </div>
-      <!-- <div>{{currentIndex}}</div> -->
    </template>
 
    <script>
@@ -97,28 +95,46 @@
       Polymer({
          is: "nickel-wheel-picker",
          properties: {
-            values: {
-               type: Array,
-               value: []
-            },
+
             currentIndex: {
+               type: Number,
+               value: 0,
+               notify: true,
+               observer: 'requestUpdate'
+            },
+
+            currentItem: {
+               type: String,
+               value: ''
+            },
+            nextItem: {
+               type: String,
+               value: ''
+            },
+            previousItem: {
+               type: String,
+               value: ''
+            },
+
+            minIndex: {
                type: Number,
                value: 0
             },
+
+            maxIndex: {
+               type: Number,
+               value: 0
+            },
+
             prevDy: 0,
+
             endReached: false
          },
-         computeStringValue: function(index, v) {
-            return v[index];
+
+         requestUpdate: function(){
+            this.fire('update-items', this.currentIndex);
          },
-         computeNextValue: function(index, v) {
-            let nextIndex = index + 1;
-            return nextIndex < v.length ? v[nextIndex] : ' ';
-         },
-         computePrevValue: function(index, v) {
-            let nextIndex = index - 1;
-            return nextIndex >= 0 ? v[nextIndex] : ' ';
-         },
+
          track: function(e) {
             var state = e.detail.state;
             var dy = e.detail.dy;
@@ -135,22 +151,24 @@
                let bounds = this.$.currentItem.getBoundingClientRect();
                if (!this.endReached) {
 
-                  var d = Math.round(Math.abs(dy) % bounds.height);
+                  var d = Math.round(Math.abs(dy) % bounds.height) * 1.2;
                   var prevD = Math.round(Math.abs(this.prevDy) % bounds.height);
                   // console.log('move : %o, %o', dy, d);
                   if (prevD > d) {
                      if (dy < 0) {
                         this.currentIndex = this.currentIndex + 1;
-                        if (this.currentIndex >= this.values.length) {
-                           this.currentIndex = this.values.length - 1;
+                        if (this.currentIndex >= this.maxIndex) {
+                           this.currentIndex = this.maxIndex - 1;
                            this.endReached = true;
                         }
+                        this.requestUpdate();
                      } else {
                         this.currentIndex = this.currentIndex - 1;
-                        if (this.currentIndex < 0) {
-                           this.currentIndex = 0;
+                        if (this.currentIndex < this.minIndex ) {
+                           this.currentIndex = this.minIndex;
                            this.endReached = true;
                         }
+                        this.requestUpdate();
                      }
                   }
                }

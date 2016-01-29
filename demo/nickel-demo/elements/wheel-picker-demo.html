@@ -9,6 +9,9 @@
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-wheel-picker.html">
 
+<link rel="import" href="../bower_components/nickel-elements/nickel-wheel-array.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-wheel-number.html">
+
 
 <dom-module id="wheel-picker-demo">
 
@@ -16,13 +19,11 @@
       <style is="custom-style">
          :host {
             display: block;
-
          }
 
          nickel-ios-filler {
             --filler-background: #3f51b5;
          }
-
 
          nickel-wheel-picker {
             width: 40%;
@@ -39,7 +40,10 @@
             </paper-toolbar>
 
             <div class="flex layout vertical center center-justified">
-               <nickel-wheel-picker current-index="2" values="[[pickerItems]]"></nickel-wheel-picker>
+               <div>{{wheelIndex}}</div>
+               <nickel-wheel-array items="{{pickerItems}}" wheel-index="{{wheelIndex}}"></nickel-wheel-array>
+               <div>{{wheelValue}}</div>
+               <nickel-wheel-number current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
             </div>
          </div>
       </nickel-screen>
@@ -53,8 +57,21 @@
             pickerItems: {
                type: Array,
                value: ['Banana', 'Apple', 'Orange', 'Kiwi', 'Lemon', 'Mango']
+            },
+            wheelIndex: {
+               type: Number,
+               value: 4
+            },
+            wheelValue: {
+               type: Number,
+               value: 2
             }
          }
+
+
+
+
+
       });
    </script>
 

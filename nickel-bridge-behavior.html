@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <link rel="import" href="../polymer/polymer.html">
 
-<!-- <script src="./nickel.js" charset="utf-8"></script> -->
 <script>
    window.NickelBehaviors = window.NickelBehaviors || {};
    NickelBehaviors.NativeBridgeBehavior = {
@@ -14,7 +13,7 @@
 
       ready: function() {
          if (typeof window.NickelBridge == "undefined") {
-            window.NickelBridge = this;   
+            window.NickelBridge = this;
          }
       },
 
