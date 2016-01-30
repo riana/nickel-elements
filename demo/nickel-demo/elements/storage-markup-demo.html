@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
@@ -83,12 +84,13 @@
       </style>
 
 
-
+      <nickel-storage-collection id="storage" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
       <nickel-screen>
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
             <paper-toolbar>
                <div class="title">Storage Markup Demo</div>
+               <paper-icon-button icon="favorite" on-click="_testQuery"></paper-icon-button>
             </paper-toolbar>
 
             <nickel-dnd-container id="container" class="flex" hidden$={{objectsEmpty(objects)}} reorder target-array="{{objects}}">
@@ -164,7 +166,15 @@
          },
 
          _dataUpdated: function(e) {
-            this.$.toast.open();
+
+         },
+
+         _testQuery: function(e) {
+            var query = "refType = 'TodoItem' and propertyName = 'title' and stringPropertyValue = 'toto'";
+            this.$.storage.queryIndex('TodoItem', query, (e) => {
+               this.$.toast.text = JSON.stringify(e);
+               this.$.toast.open();
+            })
          }
       });
    </script>

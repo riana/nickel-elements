@@ -39,6 +39,16 @@
             });
          }
       },
+      queryIndex(type, q, callback){
+         var data = {
+            type: type,
+            query: q
+         };
+         this.postMessage("queryIndex", data, (response) => {
+            var loadedData = JSON.parse(response.data);
+            callback(loadedData);
+         });
+      },
       loadAll(type, callback) {
          var data = {
             type: type
