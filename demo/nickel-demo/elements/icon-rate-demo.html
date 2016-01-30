@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-icon-rate.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="icon-rate-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         nickel-icon-rate {
+            --selected-icon-color: #ff4081;
+            --default-icon-color: #aaa;
+         }
+      </style>
+
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Icon Rate Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center center-justified">
+               <div>Current value : {{currentValue}}</div>
+               <nickel-icon-rate icon="icons:favorite" max-value="5" current-value="{{currentValue}}"></nickel-icon-rate>
+
+            </div>
+         </div>
+      </nickel-screen>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "icon-rate-demo",
+         properties: {
+            currentValue: {
+               type: Number,
+               value: 2
+            }
+         }
+      });
+   </script>
+
+</dom-module>

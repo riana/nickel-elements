@@ -8,6 +8,7 @@
 <link rel="import" href="./storage-markup-demo.html">
 <link rel="import" href="./object-editor.html">
 <link rel="import" href="./wheel-picker-demo.html">
+<link rel="import" href="./icon-rate-demo.html">
 
 <dom-module id="demo-app">
 
@@ -34,6 +35,7 @@
          <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{storedObjects}}"></storage-markup-demo>
          <object-editor id="edit" on-save-object="_saveObject" on-delete-object="_deleteObject" on-close-editor="_backHome"></object-editor>
          <wheel-picker-demo id="wheelPicker"></wheel-picker-demo>
+         <icon-rate-demo id="iconRate"></icon-rate-demo>
       </neon-animated-pages>
 
 
@@ -47,7 +49,7 @@
          properties: {
             selectedPage: {
                type: String,
-               value: "wheelPicker"
+               value: "iconRate"
             },
             storedObjects: {
                type: Array,
