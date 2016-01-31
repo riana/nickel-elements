@@ -81,6 +81,13 @@
             font-size: 16px;
             margin: 2px;
          }
+
+         .object-date {
+            font-family: "Roboto";
+            font-size: 12px;
+            font-weight: lighter;
+            margin: 2px;
+         }
       </style>
 
 
@@ -98,6 +105,7 @@
                   <nickel-dnd-item transfered-object="[[obj]]">
                      <paper-material class="noselect" elevation="2" on-click="_editObject">
                         <div class="object-label">{{obj.title}}</div>
+                        <div class="object-date">{{obj.date}}</div>
                      </paper-material>
                   </nickel-dnd-item>
                </template>
@@ -121,9 +129,9 @@
          properties: {
 
             objects: {
-               type: Array
-            },
-
+               type: Array,
+               observer: '_dataUpdated'
+            }
 
 
          },
@@ -166,7 +174,9 @@
          },
 
          _dataUpdated: function(e) {
-
+            for(var d of this.objects){
+               d.date = new Date(d._date);
+            }
          },
 
          _testQuery: function(e) {
@@ -175,6 +185,13 @@
                this.$.toast.text = JSON.stringify(e);
                this.$.toast.open();
             })
+         },
+
+         _dropDataBase: function(e){
+            this.$.storage.drop((e) => {
+               this.$.toast.text = 'DB Dropped';
+               this.$.toast.open();
+            });
          }
       });
    </script>

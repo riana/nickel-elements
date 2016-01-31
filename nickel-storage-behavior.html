@@ -49,6 +49,23 @@
             callback(loadedData);
          });
       },
+      queryObject(type, q, callback){
+         var data = {
+            type: type,
+            query: q
+         };
+         this.postMessage("queryIndex", data, (response) => {
+            var loadedData = JSON.parse(response.data);
+            callback(loadedData);
+         });
+      },
+      drop(callback){
+         var data = {};
+         this.postMessage("dropDatabase", data, (response) => {
+            var responseData = JSON.parse(response.data);
+            callback(responseData);
+         });
+      },
       loadAll(type, callback) {
          var data = {
             type: type
