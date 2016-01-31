@@ -54,7 +54,7 @@
             type: type,
             query: q
          };
-         this.postMessage("queryIndex", data, (response) => {
+         this.postMessage("queryObject", data, (response) => {
             var loadedData = JSON.parse(response.data);
             callback(loadedData);
          });
