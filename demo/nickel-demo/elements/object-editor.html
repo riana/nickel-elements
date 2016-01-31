@@ -26,7 +26,6 @@
          }
 
          #ripplePlaceholder {
-
             @apply(--layout-fit);
             overflow: hidden;
          }
@@ -35,6 +34,7 @@
             background: #ff4081;
             --filler-background: #ff4081;
          }
+
          .ripple-edit {
             background: #FFEE58;
          }
@@ -46,15 +46,15 @@
             box-sizing: border-box;
          }
 
-         paper-input, paper-textarea {
-            width:80%;
+         paper-input,
+         paper-textarea {
+            width: 80%;
          }
 
          #saveButton {
             margin: 10px;
             --paper-fab-background: #3f51b5;
          }
-
       </style>
 
       <!--Template goes here -->
@@ -98,13 +98,13 @@
 
             title: {
                type: String,
-               value:"",
+               value: "",
                notify: true
             },
 
             details: {
                type: String,
-               value:"",
+               value: "",
                notify: true
             },
 
@@ -119,36 +119,37 @@
             this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.screen);
          },
 
-         _computeClass: function(){
+         _computeClass: function() {
             console.log(this.mode);
             return this.mode === "edit" ? 'ripple-edit' : 'ripple-add';
          },
 
-         createObject: function(){
+         createObject: function() {
             this.mode = 'create';
             this.$.iosFiller.customStyle['--filler-background'] = '#ff4081';
-this.$.iosFiller.updateStyles();
+            this.$.iosFiller.updateStyles();
             this.title = "";
             this.details = ""
             this.object = {};
 
          },
-         editObject: function(object){
-            this.mode= 'edit';
+         editObject: function(object) {
+            this.mode = 'edit';
             this.$.iosFiller.customStyle['--filler-background'] = '#FFEE58';
             this.$.iosFiller.updateStyles();
             this.object = object;
             this.title = this.object.title;
             this.details = this.object.details;
          },
-         _isValid: function(){
+         _isValid: function() {
             return this.title.length > 0;
          },
-         _isNewObject: function(){
+         _isNewObject: function() {
             return !this.object._id || this.object._id.length === 0;
          },
          _save: function() {
             this.object.title = this.title;
+            this.object._clientDate = (new Date()).getTime();
             this.object.details = this.details;
             this.fire('save-object', this.object);
          },
