@@ -3,7 +3,6 @@
 var gulp = require('gulp');
 var vulcanize = require('gulp-vulcanize');
 var crisper = require('gulp-crisper');
-var traceur = require('gulp-traceur');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var rimraf = require('gulp-rimraf');
@@ -14,31 +13,14 @@ var cheerio = require('gulp-cheerio');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var stripDebug = require('gulp-strip-debug');
+const babel = require('gulp-babel');
 
 var distDir = '../NickelDemo-iOS/www';
 var appDir = './';
 
 gulp.task('default', function (callback) {
-	runSequence('update-nickel-elements', 'vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
+	runSequence('vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
 		callback);
-});
-
-gulp.task('update-nickel-elements', function (callback) {
-	runSequence('delete-nickel-elements', 'copy-nickel-elements', callback);
-});
-
-gulp.task('copy-nickel-elements', function () {
-	return gulp.src(['../../*.html', '../../*.js'])
-		.pipe(gulp.dest('./bower_components/nickel-elements/'));
-});
-
-gulp.task('delete-nickel-elements', function () {
-	return gulp.src(['./bower_components/nickel-elements'], {
-			read: false
-		})
-		.pipe(rimraf({
-			force: true
-		}));
 });
 
 gulp.task('clean', function () {
@@ -80,20 +62,16 @@ gulp.task('copy-index', function () {
 
 gulp.task('traceur', function () {
 	return gulp.src('build/vulcanized/index.js')
-		.pipe(traceur())
+		// .pipe(traceur())
+		.pipe(babel({
+            presets: ['es2015']
+        }))
 		.pipe(rename('index.v.js'))
 		.pipe(gulp.dest(distDir));
 });
 
 gulp.task('inject-traceur', function () {
-	// It's not necessary to read the files (will speed up things), we're only after their paths:
-	var sources = gulp.src([distDir + '/traceur-runtime.min.js'], {
-		read: false
-	});
 	return gulp.src(distDir + '/index.v.html')
-		// .pipe(inject(sources, {
-		// 	relative: true
-		// }))
 		.pipe(rename('index.html'))
 		.pipe(gulp.dest(distDir));
 });
@@ -140,7 +118,7 @@ gulp.task('minify-html', function () {
 });
 
 gulp.task('minify-js', function () {
-	return gulp.src(['./bower_components/traceur-runtime/traceur-runtime.min.js', distDir + '/index.v.js'])
+	return gulp.src(['./bower_components/babel-polyfill/browser-polyfill.js', distDir + '/index.v.js'])
 		.pipe(concat('index.js'))
       .pipe(stripDebug())
 		.pipe(uglify({
