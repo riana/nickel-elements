@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./nickel-storage-behavior.html">
+<!--Imports go here-->
+
+<dom-module id="nickel-storage">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "nickel-storage",
+            behaviors: [NickelBehaviors.StorageBehavior]
+        });
+    </script>
+
+</dom-module>
