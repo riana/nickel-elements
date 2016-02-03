@@ -15,8 +15,8 @@
       </style>
 
       <!--Template goes here-->
-      <nickel-invoke id="selectImage" operation-id="selectImage"></nickel-invoke>
-      <nickel-callback operation-id="imageSelected" on-receive-data="_onImageSelected" last-received-data="{{responseData}}"></nickel-callback>
+      <nickel-invoke id="selectImage" operation-id="pickImage"></nickel-invoke>
+      <nickel-callback operation-id="imagePicked" on-receive-data="_onImageSelected" last-received-data="{{responseData}}"></nickel-callback>
     </template>
 
     <script>
