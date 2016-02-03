@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+<!--Imports go here-->
+
+<link rel="import" href="./nickel-invoke.html">
+<link rel="import" href="./nickel-callback.html">
+
+<dom-module id="nickel-photo-picker">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <!--Template goes here-->
+      <nickel-invoke id="selectImage" operation-id="selectImage"></nickel-invoke>
+      <nickel-callback operation-id="imageSelected" on-receive-data="_onImageSelected" last-received-data="{{responseData}}"></nickel-callback>
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "nickel-photo-picker",
+            properties: {
+               responseData : {
+                  type: Object,
+                  value: {}
+               }
+            },
+            pickImage: function() {
+               this.$.selectImage.generateRequest();
+            },
+            _onImageSelected: function(data) {
+               if(this.responseData.image){
+                  let base64Image = this.responseData.image;
+                  this.fire('image-selected', base64Image);
+               }
+            }
+        });
+    </script>
+
+</dom-module>
