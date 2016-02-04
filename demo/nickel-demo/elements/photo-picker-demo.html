@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-photo-picker.html">
+<!--Imports go here-->
+
+<dom-module id="photo-picker-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         nickel-ios-filler {
+            --filler-background: #3f51b5;
+         }
+
+         iron-image {
+            width: 200px;
+            height: 200px;
+            background: var(--paper-grey-200);
+         }
+
+         .button {
+            margin: 20px;
+         }
+
+         paper-button {
+            background: var(--paper-pink-400);
+            color: white;
+         }
+      </style>
+
+      <nickel-photo-picker id="photoPicker" on-photo-picked="_onPhotoPicked"></nickel-photo-picker>
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Photo Picker Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center center-justified">
+
+               <div class="button">
+                  <paper-button on-tap="_pickImage" raised>Pick Image</paper-button>
+               </div>
+               <iron-image src="{{image}}" sizing="cover"></iron-image>
+
+
+            </div>
+         </div>
+      </nickel-screen>
+
+
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "photo-picker-demo",
+         properties: {
+            image: {
+               type: String,
+               value: '',
+               notify: true
+            }
+         },
+         _onPhotoPicked: function(e) {
+            if (e.detail) {
+               this.image = e.detail;
+            }
+         },
+         _pickImage: function() {
+            this.$.photoPicker.pickImage();
+         }
+      });
+   </script>
+
+</dom-module>

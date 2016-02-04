@@ -35,7 +35,7 @@
             _onImageSelected: function(data) {
                if(this.responseData.image){
                   let base64Image = this.responseData.image;
-                  this.fire('image-selected', base64Image);
+                  this.fire('photo-picked', base64Image);
                }
             }
         });
