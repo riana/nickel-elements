@@ -86,9 +86,13 @@
             });
          },
          _scheduleNotification: function() {
+            // repeat : None, Minute, Hour, Day
+            var date = (new Date()).getTime() + 10 * 1000;
             var notification = {
                id: "toto",
-               message: "Hi notification is working!"
+               date: date,
+               message: "Hi notification is working!",
+               repeat: "None"
             };
             this.scheduleNotification(notification, (response) => {
                this._updateScheduledNotifications();
