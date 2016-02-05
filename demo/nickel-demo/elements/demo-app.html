@@ -10,6 +10,7 @@
 <link rel="import" href="./wheel-picker-demo.html">
 <link rel="import" href="./icon-rate-demo.html">
 <link rel="import" href="./photo-picker-demo.html">
+<link rel="import" href="./notification-demo.html">
 
 <dom-module id="demo-app">
 
@@ -38,6 +39,7 @@
          <wheel-picker-demo id="wheelPicker"></wheel-picker-demo>
          <icon-rate-demo id="iconRate"></icon-rate-demo>
          <photo-picker-demo id="photoPicker"></photo-picker-demo>
+         <notification-demo id="notification"></notification-demo>
       </neon-animated-pages>
 
 
@@ -51,7 +53,7 @@
          properties: {
             selectedPage: {
                type: String,
-               value: "photoPicker"
+               value: "notification"
             },
             storedObjects: {
                type: Array,

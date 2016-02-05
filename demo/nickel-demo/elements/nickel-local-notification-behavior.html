@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!--Imports go here-->
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-bridge-behavior.html">
+
+<script>
+   LocalNotificationBehaviorImpl = {
+      scheduleNotification: function(notification, callback){
+         this.postMessage("scheduleNotification", notification, (response) => {
+            if (callback) {
+               callback(response);
+            }
+         });
+      },
+      cancelNotification: function(notificationId, callback){
+         var data = {
+            id: notificationId
+         };
+         this.postMessage("cancelNotification", data, (response) => {
+            if (callback) {
+               callback(response);
+            }
+         });
+      },
+      getScheduledNotifications: function(callback){
+         var data = {};
+         this.postMessage("getScheduledNotifications", data, (response) => {
+            if (callback) {
+               callback(response);
+            }
+         });
+      }
+   }
+   window.NickelBehaviors = window.NickelBehaviors || {};
+   NickelBehaviors.LocalNotificationBehavior = [NickelBehaviors.NativeBridgeBehavior, LocalNotificationBehaviorImpl]
+
+</script>

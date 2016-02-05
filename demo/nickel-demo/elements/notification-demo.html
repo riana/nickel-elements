@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+
+<link rel="import" href="./nickel-local-notification-behavior.html">
+
+<!--Imports go here-->
+
+<dom-module id="notification-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         nickel-ios-filler {
+            --filler-background: #3f51b5;
+         }
+
+         .button {
+            margin: 20px;
+         }
+
+         paper-button {
+            background: var(--paper-pink-400);
+            color: white;
+         }
+
+         paper-material {
+            padding: 10px;
+         }
+      </style>
+
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Notification Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center center-justified">
+
+               <div class="button">
+                  <paper-button on-tap="_scheduleNotification" raised>Set Notification</paper-button>
+               </div>
+
+               <template is="dom-repeat" items="[[notifications]]" as="notification">
+                  <paper-material elevation="2" class="layout horizontal" on-tap="_cancelNotification">
+                     <div>[[notification.id]] => [[notification.message]]</div>
+                  </paper-material>
+               </template>
+
+
+            </div>
+         </div>
+      </nickel-screen>
+
+
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "notification-demo",
+         behaviors: [NickelBehaviors.LocalNotificationBehavior],
+         properties: {
+            notifications: {
+               type: Array,
+               value: []
+            }
+         },
+         ready: function() {
+            this.debounce("updateNotification", ()=>{
+               this._updateScheduledNotifications();
+            },200);
+         },
+         _updateScheduledNotifications: function() {
+            this.getScheduledNotifications((response) => {
+               this.notifications = response.notifications;
+            });
+         },
+         _scheduleNotification: function() {
+            var notification = {
+               id: "toto",
+               message: "Hi notification is working!"
+            };
+            this.scheduleNotification(notification, (response) => {
+               this._updateScheduledNotifications();
+            });
+         },
+         _cancelNotification: function(e) {
+            var notificationId = e.model.notification.id;
+            this.cancelNotification(notificationId, (response) => {
+this._updateScheduledNotifications();
+            });
+         }
+      });
+   </script>
+
+</dom-module>
