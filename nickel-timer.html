@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="./nickel-invoke.html">
+<link rel="import" href="./nickel-callback.html">
+<link rel="import" href="./nickel-bridge-behavior.html">
+
+
+<dom-module id="nickel-timer">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <nickel-invoke id="startTimer" operation-id="startTimer"></nickel-invoke>
+      <nickel-invoke id="stopTimer" operation-id="stopTimer"></nickel-invoke>
+      <nickel-callback operation-id="timeStep" on-receive-data="_timeStep" last-received-data="{{timeStepData}}"></nickel-callback>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-timer",
+         behaviors: [NickelBehaviors.NativeBridgeBehavior],
+         properties: {
+            timeStepData: {
+               type: Object
+            },
+
+         },
+         interval: 0,
+         start: function() {
+            if (this.getCurrentRuntime() !== 'iOS') {
+               this.elapsedTime = 0;
+               this.timeStepData = {
+                  elapsedTime : this.elapsedTime
+               };
+               this.interval = setInterval(() => {
+                  this.timeStepData.elapsedTime++;
+                  this._timeStep();
+               }, 1000);
+            } else {
+               this.$.startTimer.generateRequest();
+            }
+
+         },
+         stop: function() {
+            if (this.getCurrentRuntime() !== 'iOS') {
+               clearInterval(this.interval);
+            } else {
+               this.$.stopTimer.generateRequest();
+            }
+         },
+         _timeStep: function() {
+            this.fire('timestep', this.timeStepData);
+         }
+      });
+   </script>
+
+</dom-module>
