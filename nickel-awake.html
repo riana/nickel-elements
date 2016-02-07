@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="./nickel-invoke.html">
+<link rel="import" href="./nickel-callback.html">
+
+<!--Imports go here-->
+
+<dom-module id="nickel-awake">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <nickel-invoke id="enableAwakeMode" operation-id="enableAwakeMode"></nickel-invoke>
+      <nickel-invoke id="disableAwakeMode" operation-id="disableAwakeMode"></nickel-invoke>
+
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "nickel-awake",
+            enterAwakeMode: function(){
+               this.$.enableAwakeMode.generateRequest();
+            },
+            exitAwakeMode: function(){
+               this.$.disableAwakeMode.generateRequest();
+            }
+        });
+    </script>
+
+</dom-module>
