@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-timer.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-awake.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+
+<dom-module id="timer-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         paper-button {
+            margin: 20px;
+         }
+
+         .remaining-time {
+            font-size: 60px;
+         }
+      </style>
+
+      <!--Template goes here-->
+      <nickel-timer id="timer" on-timestep="timestep"></nickel-timer>
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Timer Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center-justified">
+               <div class="flex layout vertical center-justified center">
+                  <div class="remaining-time">{{remaining}}</div>
+               </div>
+               <div class="layout vertical center-justified center">
+                  <paper-button raised on-tap="start" hidden$={{started}}>Start</paper-button>
+                  <paper-button raised on-tap="stop" hidden$={{!started}}>Stop</paper-button>
+               </div>
+            </div>
+         </div>
+      </nickel-screen>
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "timer-demo",
+         properties: {
+            remaining: {
+               type: Number,
+               value: 20
+            },
+            started: {
+               type: Boolean,
+               value: false
+            }
+         },
+         start: function() {
+            this.started = true;
+            this.remaining = 20;
+            this.debounce('play', () => {
+               this.$.timer.start();
+            }, 200);
+         },
+         stop: function() {
+            this.started = false;
+            this.$.timer.stop();
+         },
+         timestep: function() {
+            this.remaining--;
+            if(this.remaining === 0 ){
+               this.stop();
+            }
+         }
+      });
+   </script>
+
+</dom-module>

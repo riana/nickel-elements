@@ -11,6 +11,7 @@
 <link rel="import" href="./icon-rate-demo.html">
 <link rel="import" href="./photo-picker-demo.html">
 <link rel="import" href="./notification-demo.html">
+<link rel="import" href="./timer-demo.html">
 
 <dom-module id="demo-app">
 
@@ -40,6 +41,7 @@
          <icon-rate-demo id="iconRate"></icon-rate-demo>
          <photo-picker-demo id="photoPicker"></photo-picker-demo>
          <notification-demo id="notification"></notification-demo>
+         <timer-demo id="timer"></timer-demo>
       </neon-animated-pages>
 
 
@@ -53,7 +55,7 @@
          properties: {
             selectedPage: {
                type: String,
-               value: "notification"
+               value: "timer"
             },
             storedObjects: {
                type: Array,
