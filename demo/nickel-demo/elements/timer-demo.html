@@ -31,6 +31,7 @@
       </style>
 
       <!--Template goes here-->
+      <nickel-awake id="nickelAwake"></nickel-awake>
       <nickel-timer id="timer" on-timestep="timestep"></nickel-timer>
       <nickel-screen>
          <div class="fit layout vertical">
@@ -71,14 +72,18 @@
             this.debounce('play', () => {
                this.$.timer.start();
             }, 200);
+            this.$.nickelAwake.enterAwakeMode();
          },
          stop: function() {
             this.started = false;
             this.$.timer.stop();
+            this.debounce('play', () => {
+               this.$.nickelAwake.exitAwakeMode();
+            }, 100);
          },
          timestep: function() {
             this.remaining--;
-            if(this.remaining === 0 ){
+            if (this.remaining === 0) {
                this.stop();
             }
          }
