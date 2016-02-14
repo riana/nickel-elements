@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+
+<dom-module id="tts-demo">
+
+    <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+         paper-textarea {
+            width: 80%;
+         }
+
+         paper-button {
+            margin: 20px;
+         }
+
+      </style>
+
+      <!--Template goes here-->
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">TTS Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center-justified">
+               <div class="flex layout vertical center-justified center">
+                  <paper-textarea label="TTS text" rows="3" value="{{ttsText}}"></paper-textarea>
+               </div>
+               <div class="layout vertical center-justified center">
+                  <paper-button raised on-tap="speak">Speak</paper-button>
+               </div>
+            </div>
+         </div>
+      </nickel-screen>
+    </template>
+
+    <script>
+      "use strict";
+         Polymer({
+            is: "tts-demo",
+            properties: {
+               ttsText: {
+                  type: String,
+                  value: "Here's a text-to-speech demo"
+               }
+            },
+            speak: function(){
+               //TTS
+               console.log(this.ttsText);
+            }
+        });
+    </script>
+
+</dom-module>

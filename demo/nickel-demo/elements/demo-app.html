@@ -12,6 +12,7 @@
 <link rel="import" href="./photo-picker-demo.html">
 <link rel="import" href="./notification-demo.html">
 <link rel="import" href="./timer-demo.html">
+<link rel="import" href="./tts-demo.html">
 
 <dom-module id="demo-app">
 
@@ -42,6 +43,7 @@
          <photo-picker-demo id="photoPicker"></photo-picker-demo>
          <notification-demo id="notification"></notification-demo>
          <timer-demo id="timer"></timer-demo>
+         <tts-demo id="tts"></tts-demo>
       </neon-animated-pages>
 
 
@@ -55,7 +57,7 @@
          properties: {
             selectedPage: {
                type: String,
-               value: "timer"
+               value: "tts"
             },
             storedObjects: {
                type: Array,
