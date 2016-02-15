@@ -7,6 +7,7 @@
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-tts.html">
 
 <dom-module id="tts-demo">
 
@@ -24,6 +25,8 @@
          }
 
       </style>
+
+      <nickel-tts id="tts" language="en-US"></nickel-tts>
 
       <!--Template goes here-->
       <nickel-screen>
@@ -55,7 +58,8 @@
                }
             },
             speak: function(){
-               //TTS
+               this.$.tts.text = this.ttsText;
+               this.$.tts.doSpeak();
                console.log(this.ttsText);
             }
         });

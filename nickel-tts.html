@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="./nickel-bridge-behavior.html">
+
+<dom-module id="nickel-tts">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-tts",
+         behaviors: [NickelBehaviors.NativeBridgeBehavior],
+         properties: {
+            text: {
+               type: String,
+               value: ""
+            },
+            language: {
+               type: String,
+               value: "en"
+            }
+         },
+         doSpeak: function(){
+            this.speak(this.text, this.language);
+         },
+         speak: function(text, lang) {
+            var data = {
+               text: text,
+               language: lang
+            };
+            this.postMessage("speak", data, (response) => {
+               if (callback) {
+                  callback();
+               }
+            });
+         }
+      });
+   </script>
+
+</dom-module>
