@@ -2,11 +2,11 @@ PODS:
   - NickelSwift (0.1.0):
     - RealmSwift
     - SwiftyJSON
-  - Realm (0.98.0):
-    - Realm/Headers (= 0.98.0)
-  - Realm/Headers (0.98.0)
-  - RealmSwift (0.98.0):
-    - Realm (= 0.98.0)
+  - Realm (0.98.1):
+    - Realm/Headers (= 0.98.1)
+  - Realm/Headers (0.98.1)
+  - RealmSwift (0.98.1):
+    - Realm (= 0.98.1)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -18,8 +18,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   NickelSwift: e05eaf13a5bb39825b15deffb09c4f79d39adebd
-  Realm: 28efc598b8b1b378d27a222d9fc037a29ae68642
-  RealmSwift: 7ef4b9ee449d711cd5a7d69a3af1cc5cd0efb619
+  Realm: ca4a4122e939e228e10694fc49011386cb2ecb07
+  RealmSwift: 7d3c7033427816a2c3417ba0d004d694987e503a
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0
