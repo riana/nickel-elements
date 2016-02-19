@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="./nickel-invoke.html">
+
+<dom-module id="nickel-audio">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <nickel-invoke id="playSound" operation-id="playSound"></nickel-invoke>
+      
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-audio",
+         play: function(soundFile) {
+            this.$.playSound.data = {
+               soundFile: soundFile
+            }
+            this.$.playSound.generateRequest();
+         }
+      });
+   </script>
+
+</dom-module>
