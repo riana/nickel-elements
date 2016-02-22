@@ -140,7 +140,7 @@ gulp.task('minify-html', function () {
 gulp.task('minify-js', function () {
 	return gulp.src(['./bower_components/babel-polyfill/browser-polyfill.js', distDir + '/index.v.js'])
 		.pipe(concat('index.js'))
-      .pipe(stripDebug())
+      // .pipe(stripDebug())
 		.pipe(uglify({
 			mangle: true
 		}))
