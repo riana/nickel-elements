@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-tts.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-audio.html">
+<dom-module id="sound-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         paper-textarea {
+            width: 80%;
+         }
+
+         paper-button {
+            margin: 20px;
+         }
+
+         .section-header{
+            margin: 10px;
+            color: var(--paper-grey-600);
+            text-transform: uppercase;;
+
+         }
+      </style>
+
+      <nickel-tts id="tts" language="en-US"></nickel-tts>
+      <nickel-audio id="audio"></nickel-audio>
+      <!--Template goes here-->
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Sound Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical">
+               <div>
+                  <div class="section-header">Text-to-speech demo</div>
+                  <div class="flex layout vertical center-justified center">
+                     <paper-textarea label="TTS text" rows="3" value="{{ttsText}}"></paper-textarea>
+                  </div>
+                  <div class="layout vertical center-justified center">
+                     <paper-button raised on-tap="speak">Speak</paper-button>
+                  </div>
+               </div>
+               <div>
+                  <div class="section-header">Audio demo</div>
+                  <div class="layout vertical center-justified center">
+                     <paper-button raised on-tap="playSound">Play Sound</paper-button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </nickel-screen>
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "sound-demo",
+         properties: {
+            ttsText: {
+               type: String,
+               value: "Here's a text-to-speech demo"
+            }
+         },
+         speak: function() {
+            this.debounce('speak', () => {
+               this.$.tts.text = this.ttsText;
+               this.$.tts.doSpeak();
+               console.log(this.ttsText);
+            }, 100);
+         },
+         playSound: function() {
+            this.debounce('audio', () => {
+            this.$.audio.play("./res/bell.mp3");
+            }, 100);
+         }
+      });
+   </script>
+
+</dom-module>
