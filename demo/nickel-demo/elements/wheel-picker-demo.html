@@ -3,6 +3,7 @@
 
 <link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-overlay-behavior/iron-overlay-backdrop.html">
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
@@ -12,6 +13,7 @@
 <link rel="import" href="../bower_components/nickel-elements/nickel-wheel-array.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-wheel-number.html">
 
+<link rel="import" href="./backdrop-view.html">
 
 <dom-module id="wheel-picker-demo">
 
@@ -29,9 +31,18 @@
             width: 40%;
             margin: 10px;
          }
+
+         .value-display {
+            padding: 10px;
+         }
+
+         #backdrop{
+            z-index: 111;
+            width: 90%;
+         }
+
       </style>
 
-      <!--Template goes here-->
       <nickel-screen>
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
@@ -40,13 +51,17 @@
             </paper-toolbar>
 
             <div class="flex layout vertical center center-justified">
-               <div>{{wheelIndex}}</div>
+               <div>Index : {{wheelIndex}}</div>
                <nickel-wheel-array items="{{pickerItems}}" wheel-index="{{wheelIndex}}"></nickel-wheel-array>
-               <div>{{wheelValue}}</div>
-               <nickel-wheel-number current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
+
+               <paper-material class="value-display" on-tap="showPicker">{{wheelValue}}</paper-material>
             </div>
          </div>
+
       </nickel-screen>
+      <backdrop-view id="backdrop">
+         <nickel-wheel-number current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
+      </backdrop-view>
    </template>
 
    <script>
@@ -65,13 +80,16 @@
             wheelValue: {
                type: Number,
                value: 2
+            },
+            overlayVisible: {
+               type: Boolean,
+               value: false
             }
+         },
+
+         showPicker: function(){
+            this.$.backdrop.open();
          }
-
-
-
-
-
       });
    </script>
 
