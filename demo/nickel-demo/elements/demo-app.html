@@ -73,8 +73,10 @@
             this.setup((page) => {
                this.currentPage = page;
             });
-
+            
+            this.pushPage("home");
             this.pushPage("wheelPicker");
+            this.pushPage("timer");
             this.pushPage("iconRate");
 
             this.debounce('loadData', () => {
