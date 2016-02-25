@@ -12,6 +12,7 @@
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-wheel-array.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-wheel-number.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
 
 <link rel="import" href="./backdrop-view.html">
 
@@ -47,6 +48,7 @@
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
             <paper-toolbar>
+               <paper-icon-button icon="icons:arrow-back" on-tap="nextPage"></paper-icon-button>
                <div class="title">Wheel Picker Demo</div>
             </paper-toolbar>
 
@@ -68,6 +70,7 @@
       "use strict";
       Polymer({
          is: "wheel-picker-demo",
+         behaviors: [NickelBehaviors.PagingBehavior],
          properties: {
             pickerItems: {
                type: Array,
@@ -89,6 +92,10 @@
 
          showPicker: function(){
             this.$.backdrop.open();
+         },
+
+         nextPage: function() {
+            this.pushPage("tts");
          }
       });
    </script>

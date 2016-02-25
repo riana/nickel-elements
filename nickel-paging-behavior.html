@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<link rel="import" href="../polymer/polymer.html">
+
+<script>
+   window.NickelBehaviors = window.NickelBehaviors || {};
+   NickelBehaviors.PagingBehavior = {
+
+      properties: {
+
+         activePage: {
+            type: String,
+            value: ''
+         },
+
+         pageStack: {
+            type: Array,
+            value: []
+         },
+
+         callback: {
+            type: Object,
+            value: {}
+         }
+
+      },
+
+      setup: function(callback) {
+         this.callback.operation = callback;
+      },
+
+      popPage: function() {
+         if (this.pageStack.length > 1) {
+            this.pageStack.splice(this.pageStack.length - 1, 1);
+            this.activePage = this.pageStack[this.pageStack.length - 1];
+            if (this.callback.operation) {
+               this.callback.operation(this.activePage);
+            }
+         }
+      },
+
+      pushPage: function(page) {
+         this.pageStack.push(page);
+         this.activePage = page;
+         if (this.callback.operation) {
+            this.callback.operation(this.activePage);
+         }
+      }
+
+   }
+</script>

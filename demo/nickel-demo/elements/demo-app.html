@@ -3,6 +3,7 @@
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
 
 <link rel="import" href="./storage-behavior-demo.html">
 <link rel="import" href="./storage-markup-demo.html">
@@ -31,7 +32,7 @@
 
       <nickel-storage-collection id="storage" auto-reload data="{{storedObjects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
 
-      <neon-animated-pages selected="{{selectedPage}}" attr-for-selected="id">
+      <neon-animated-pages selected="{{currentPage}}" attr-for-selected="id">
          <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{storedObjects}}"></storage-markup-demo>
          <object-editor id="edit" on-save-object="_saveObject" on-delete-object="_deleteObject" on-close-editor="_backHome"></object-editor>
          <wheel-picker-demo id="wheelPicker"></wheel-picker-demo>
@@ -50,11 +51,14 @@
       "use strict";
       Polymer({
          is: "demo-app",
+         behaviors: [NickelBehaviors.PagingBehavior],
          properties: {
-            selectedPage: {
+
+            currentPage: {
                type: String,
-               value: "wheelPicker"
+               value: ''
             },
+
             storedObjects: {
                type: Array,
                value: [],
@@ -66,6 +70,12 @@
             }
          },
          ready: function() {
+            this.setup((page) => {
+               this.currentPage = page;
+            });
+
+            this.pushPage("wheelPicker");
+            this.pushPage("iconRate");
 
             this.debounce('loadData', () => {
                this.$.storage.update();
