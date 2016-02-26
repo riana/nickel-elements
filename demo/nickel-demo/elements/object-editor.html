@@ -133,6 +133,14 @@
             return this.mode === "edit" ? 'ripple-edit' : 'ripple-add';
          },
 
+         prepageForTransition: function(e) {
+            console.log("PrepageForTransition from : ", e.fromPage);
+            if(e.data){
+               this.editObject(e.data);
+            }else {
+               this.createObject();
+            }
+         },
          createObject: function() {
             this.mode = 'create';
             this.$.iosFiller.customStyle['--filler-background'] = '#ff4081';

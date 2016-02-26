@@ -30,27 +30,33 @@
 
       popPage: function() {
          if (this.pageStack.length > 1) {
+            var previousPage = this.pageStack[this.pageStack.length - 1];
             this.pageStack.splice(this.pageStack.length - 1, 1);
             this.activePage = this.pageStack[this.pageStack.length - 1];
             if (this.callback.operation) {
-               this.callback.operation(this.activePage);
+               this.callback.operation(this.activePage, {
+                  fromPage: previousPage
+               });
             }
          }
       },
 
-      pushPage: function(page) {
+      pushPage: function(page, data) {
          this.pageStack.push(page);
          this.activePage = page;
          if (this.callback.operation) {
-            this.callback.operation(this.activePage);
+            this.callback.operation(this.activePage, {
+               fromPage: page,
+               data: data
+            });
          }
       },
 
-      replacePage: function(page) {
+      replacePage: function(page, data) {
          if (this.pageStack.length > 0) {
             this.pageStack.splice(this.pageStack.length - 1, 1);
          }
-         this.pushPage(page);
+         this.pushPage(page, data);
       }
 
    }

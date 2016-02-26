@@ -29,9 +29,6 @@
             height: 100%;
          }
       </style>
-
-      <!-- <nickel-storage-collection id="storage" auto-reload data="{{storedObjects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection> -->
-
       <neon-animated-pages selected="{{currentPage}}" attr-for-selected="id">
          <storage-markup-demo id="home"></storage-markup-demo>
          <object-editor id="edit"></object-editor>
@@ -61,10 +58,18 @@
 
          },
          ready: function() {
-            this.setup((page) => {
-               this.currentPage = page;
-            });
+            this.setup((page, e) => {
 
+               if (e) {
+                  var pageEl = document.getElementById(page);
+                  if(pageEl.prepageForTransition){
+                     pageEl.prepageForTransition(e);
+                  }
+               }
+               this.currentPage = page;
+
+
+            });
             this.pushPage("home");
             // this.pushPage("wheelPicker");
             // this.pushPage("timer");
