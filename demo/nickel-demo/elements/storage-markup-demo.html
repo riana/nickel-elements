@@ -15,6 +15,7 @@
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-storage-collection.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
@@ -91,7 +92,8 @@
       </style>
 
 
-      <nickel-storage-collection id="storage" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
+      <nickel-storage-collection id="storage" path="TodoItem" data="{{objects}}" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
+
       <nickel-screen>
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
@@ -125,16 +127,18 @@
       Polymer({
          is: "storage-markup-demo",
          behaviors: [
-            PageTransitionBehavior
+            PageTransitionBehavior,
+            NickelBehaviors.PagingBehavior
          ],
          properties: {
 
             objects: {
+               type: Array
+            },
+            indexedAttributes: {
                type: Array,
-               observer: '_dataUpdated'
+               value: ['title', 'value']
             }
-
-
          },
          ready: function() {
 
@@ -156,7 +160,23 @@
                id: 'ripple',
                fromPage: this
             }];
+            this.loadData();
+         },
 
+         loadData: function(){
+            this.debounce('loadData', () => {
+               this.$.storage.update();
+            }, 1000);
+
+            var objects = [];
+            for (var i = 0; i < 5; i++) {
+               objects.push({
+                  title: "object #" + i,
+                  detail: ""
+               });
+            }
+
+            this.objects = objects;
          },
 
          objectsEmpty: function() {
@@ -167,11 +187,17 @@
             this.startRippleTransition(e, this.$.fabButton);
             this.fire("add-object");
 
+            // Creation MODE
+            // this.$.edit.createObject();
+            this.pushPage("edit");
          },
          _editObject: function(e) {
             var item = e.model.obj;
             this.startRippleTransition(e, e.target);
-            this.fire('edit-object', item)
+
+            // Edition MODE with provided data
+            // this.$.edit.editObject(e.detail);
+            this.pushPage("edit", item);
          },
 
          _dataUpdated: function(e) {

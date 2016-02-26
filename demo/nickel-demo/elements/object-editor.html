@@ -11,6 +11,8 @@
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
 
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
+
 <link rel="import" href="./page-transition-behavior.html">
 
 <dom-module id="object-editor">
@@ -59,6 +61,7 @@
 
       <!--Template goes here -->
       <div id="ripplePlaceholder" class$="{{_computeClass(mode)}}"></div>
+      <nickel-storage-collection id="storage" path="TodoItem" indexed-attributes="[[indexedAttributes]]"></nickel-storage-collection>
 
       <nickel-screen id="screen">
          <nickel-ios-filler id="iosFiller"></nickel-ios-filler>
@@ -88,7 +91,8 @@
       Polymer({
          is: "object-editor",
          behaviors: [
-            PageTransitionBehavior
+            PageTransitionBehavior,
+            NickelBehaviors.PagingBehavior
          ],
          properties: {
             object: {
@@ -111,6 +115,11 @@
             mode: {
                type: String,
                value: "create"
+            },
+
+            indexedAttributes: {
+               type: Array,
+               value: ['title', 'value']
             }
 
 
@@ -151,13 +160,15 @@
             this.object.title = this.title;
             this.object._clientDate = (new Date()).getTime();
             this.object.details = this.details;
-            this.fire('save-object', this.object);
+            this.$.storage.store(this.object);
+            this.popPage();
          },
          _delete: function() {
-            this.fire('delete-object', this.object);
+            this.$.storage.remove(this.object);
+            this.popPage();
          },
          _close: function() {
-            this.fire('close-editor');
+            this.popPage();
          }
       });
    </script>

@@ -30,11 +30,11 @@
          }
       </style>
 
-      <nickel-storage-collection id="storage" auto-reload data="{{storedObjects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection>
+      <!-- <nickel-storage-collection id="storage" auto-reload data="{{storedObjects}}" path="TodoItem" indexed-attributes="[[indexedAttributes]]" on-data-updated="_dataUpdated"></nickel-storage-collection> -->
 
       <neon-animated-pages selected="{{currentPage}}" attr-for-selected="id">
-         <storage-markup-demo id="home" class="fit" on-add-object="_addObject" on-edit-object="_editObject" objects="{{storedObjects}}"></storage-markup-demo>
-         <object-editor id="edit" on-save-object="_saveObject" on-delete-object="_deleteObject" on-close-editor="_backHome"></object-editor>
+         <storage-markup-demo id="home"></storage-markup-demo>
+         <object-editor id="edit"></object-editor>
          <wheel-picker-demo id="wheelPicker"></wheel-picker-demo>
          <icon-rate-demo id="iconRate"></icon-rate-demo>
          <photo-picker-demo id="photoPicker"></photo-picker-demo>
@@ -57,61 +57,18 @@
             currentPage: {
                type: String,
                value: ''
-            },
-
-            storedObjects: {
-               type: Array,
-               value: [],
-               notify: true
-            },
-            indexedAttributes: {
-               type: Array,
-               value: ['title', 'value']
             }
+
          },
          ready: function() {
             this.setup((page) => {
                this.currentPage = page;
             });
-            
+
             this.pushPage("home");
-            this.pushPage("wheelPicker");
-            this.pushPage("timer");
-            this.pushPage("iconRate");
-
-            this.debounce('loadData', () => {
-               this.$.storage.update();
-            }, 1000);
-
-            var objects = [];
-            for (var i = 0; i < 5; i++) {
-               objects.push({
-                  title: "object #" + i,
-                  detail: ""
-               });
-            }
-
-            this.storedObjects = objects;
-         },
-         _addObject: function(e) {
-            this.$.edit.createObject();
-            this.selectedPage = "edit";
-         },
-
-         _editObject: function(e) {
-            this.$.edit.editObject(e.detail);
-            this.selectedPage = "edit";
-         },
-         _saveObject: function(e) {
-            this.$.storage.store(e.detail);
-            this.selectedPage = "home";
-         },
-         _deleteObject: function(e) {
-            this.$.storage.remove(e.detail);
-            this.selectedPage = "home";
-         },
-         _backHome: function(e) {
-            this.selectedPage = "home";
+            // this.pushPage("wheelPicker");
+            // this.pushPage("timer");
+            // this.pushPage("iconRate");
          }
       });
    </script>
