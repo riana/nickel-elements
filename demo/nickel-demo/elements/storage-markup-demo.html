@@ -119,7 +119,6 @@
             <paper-fab id="fabButton" class="self-end" icon="icons:add" on-click="_storeObject"></paper-fab>
             <paper-toast id="toast" text="Data updated!" duration="1000"></paper-toast>
       </nickel-screen>
-      </div>
    </template>
 
    <script>
@@ -163,7 +162,7 @@
             this.loadData();
          },
 
-         loadData: function(){
+         loadData: function() {
             this.debounce('loadData', () => {
                this.$.storage.update();
             }, 1000);
@@ -201,7 +200,7 @@
          },
 
          _dataUpdated: function(e) {
-            for(var d of this.objects){
+            for (var d of this.objects) {
                d.date = new Date(d._date);
             }
          },
@@ -214,7 +213,7 @@
             })
          },
 
-         _dropDataBase: function(e){
+         _dropDataBase: function(e) {
             this.$.storage.drop((e) => {
                this.$.toast.text = 'DB Dropped';
                this.$.toast.open();
