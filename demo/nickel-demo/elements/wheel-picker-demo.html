@@ -48,7 +48,7 @@
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
             <paper-toolbar>
-               <paper-icon-button icon="icons:arrow-back" on-tap="nextPage"></paper-icon-button>
+               <paper-icon-button icon="icons:arrow-back" on-tap="popPage"></paper-icon-button>
                <div class="title">Wheel Picker Demo</div>
             </paper-toolbar>
 
@@ -92,10 +92,6 @@
 
          showPicker: function(){
             this.$.backdrop.open();
-         },
-
-         nextPage: function() {
-            this.replacePage("tts");
          }
       });
    </script>

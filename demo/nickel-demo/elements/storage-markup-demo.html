@@ -98,6 +98,7 @@
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
             <paper-toolbar>
+               <paper-icon-button icon="icons:arrow-back" on-tap="popPage"></paper-icon-button>
                <div class="title">Storage Markup Demo</div>
                <paper-icon-button icon="favorite" on-click="_testQuery"></paper-icon-button>
             </paper-toolbar>
@@ -187,7 +188,6 @@
             this.fire("add-object");
 
             // Creation MODE
-            // this.$.edit.createObject();
             this.pushPage("edit");
          },
          _editObject: function(e) {
@@ -195,7 +195,6 @@
             this.startRippleTransition(e, e.target);
 
             // Edition MODE with provided data
-            // this.$.edit.editObject(e.detail);
             this.pushPage("edit", item);
          },
 
