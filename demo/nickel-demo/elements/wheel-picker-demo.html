@@ -5,6 +5,9 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-overlay-behavior/iron-overlay-backdrop.html">
 
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+
 <link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
 
@@ -37,11 +40,21 @@
             padding: 10px;
          }
 
-         #backdrop{
+         #backdrop {
             z-index: 111;
-            width: 90%;
+            width: 100%;
+            bottom: 0;
          }
 
+         paper-icon-button.big {
+            width: 60px;
+            height: 60px;
+            margin: 10px;
+         }
+
+         .embedded-wheel {
+            margin: 10px;
+         }
       </style>
 
       <nickel-screen>
@@ -62,7 +75,10 @@
 
       </nickel-screen>
       <backdrop-view id="backdrop">
-         <nickel-wheel-number current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
+         <div class="layout horizontal center">
+            <nickel-wheel-number class="flex embedded-wheel" current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
+            <paper-icon-button class="big" icon="icons:check" on-tap="hidePicker"></paper-icon-button>
+         </div>
       </backdrop-view>
    </template>
 
@@ -70,7 +86,7 @@
       "use strict";
       Polymer({
          is: "wheel-picker-demo",
-         behaviors: [NickelBehaviors.PagingBehavior],
+         behaviors: [NickelBehaviors.PagingBehavior, Polymer.NeonAnimationRunnerBehavior],
          properties: {
             pickerItems: {
                type: Array,
@@ -87,11 +103,43 @@
             overlayVisible: {
                type: Boolean,
                value: false
+            },
+            animationConfig: {
+               value: function() {
+                  return {
+                     'showBackdrop': {
+                        name: 'transform-animation',
+                        transformFrom: 'translateY(100%)',
+                        node: this.$.backdrop,
+                        timing: {
+                           duration: 300
+                        }
+                     },
+                     'hideBackdrop': {
+                        name: 'transform-animation',
+                        transformTo: 'translateY(100%)',
+                        node: this.$.backdrop,
+                        timing: {
+                           duration: 300
+                        }
+                     }
+                  }
+               }
             }
          },
 
-         showPicker: function(){
+         showPicker: function() {
             this.$.backdrop.open();
+            this.playAnimation('showBackdrop');
+         },
+
+         hidePicker: function() {
+            this.playAnimation('hideBackdrop');
+            this.debounce('hide', () => {
+               this.$.backdrop.close();
+            }, 300);
+
+
          }
       });
    </script>
