@@ -17,7 +17,7 @@
 <link rel="import" href="../bower_components/nickel-elements/nickel-wheel-number.html">
 <link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
 
-<link rel="import" href="./backdrop-view.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-modal.html">
 
 <dom-module id="wheel-picker-demo">
 
@@ -74,12 +74,12 @@
          </div>
 
       </nickel-screen>
-      <backdrop-view id="backdrop">
+      <nickel-modal id="backdrop">
          <div class="layout horizontal center">
             <nickel-wheel-number class="flex embedded-wheel" current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
             <paper-icon-button class="big" icon="icons:check" on-tap="hidePicker"></paper-icon-button>
          </div>
-      </backdrop-view>
+      </nickel-modal>
    </template>
 
    <script>
