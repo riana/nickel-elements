@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-icon-rate.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-modal.html">
+
+<dom-module id="date-picker-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         .date-text {
+            font-family: "Roboto";
+            margin: 10px;
+            cursor: pointer;
+         }
+
+         #picker {
+            z-index: 111;
+            width: 100%;
+            bottom: 0;
+         }
+
+         .picker-container {
+            margin-right: 20px;
+         }
+
+         paper-icon-button.big {
+            width: 60px;
+            height: 60px;
+            margin: 10px;
+         }
+      </style>
+
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <paper-icon-button icon="icons:arrow-back" on-tap="popPage"></paper-icon-button>
+               <div class="title">Date picker Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center center-justified">
+               <paper-material>
+                  <div class="date-text" on-tap="pickDate">{{displayDate}}</div>
+               </paper-material>
+            </div>
+         </div>
+      </nickel-screen>
+
+      <nickel-modal id="picker">
+         <div class="layout horizontal center">
+            <div class="picker-container flex layout horizontal">
+               <nickel-wheel-number class="flex" current-value="{{day}}" min-value="1" max-value="31"></nickel-wheel-number>
+               <nickel-wheel-array class="flex" items="{{months}}" wheel-index="{{currentMonthIndex}}"></nickel-wheel-array>
+               <nickel-wheel-number class="flex" current-value="{{year}}" min-value="1930" max-value="2016"></nickel-wheel-number>
+            </div>
+            <paper-icon-button class="big" icon="icons:check" on-tap="hidePicker"></paper-icon-button>
+         </div>
+      </nickel-modal>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "date-picker-demo",
+         behaviors: [NickelBehaviors.PagingBehavior, Polymer.NeonAnimationRunnerBehavior],
+         properties: {
+            displayDate: {
+               type: String,
+               computed: 'computeDisplayedDate(day, months, currentMonthIndex, year)'
+            },
+            day: {
+               type: Number,
+               value: 12
+            },
+            currentMonthIndex: {
+               type: Number,
+               value: 3
+            },
+            year: {
+               type: Number,
+               value: 1990
+            },
+            months: {
+               type: Array,
+               value: ['January',
+                  'February',
+                  'March',
+                  'April',
+                  'May',
+                  'June',
+                  'July',
+                  'August',
+                  'September',
+                  'October',
+                  'November',
+                  'December'
+               ]
+            },
+            animationConfig: {
+               value: function() {
+                  return {
+                     'showDatePicker': {
+                        name: 'transform-animation',
+                        transformFrom: 'translateY(100%)',
+                        node: this.$.picker,
+                        timing: {
+                           duration: 300
+                        }
+                     },
+                     'hideDatePicker': {
+                        name: 'transform-animation',
+                        transformTo: 'translateY(100%)',
+                        node: this.$.picker,
+                        timing: {
+                           duration: 300
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         computeDisplayedDate: function(date) {
+            if(this.months){
+            return '' + this.day + ' ' + this.months[this.currentMonthIndex] + ' ' + this.year;
+            }
+            return '' + this.months
+         },
+         pickDate: function() {
+            this.$.picker.open();
+            this.playAnimation('showDatePicker');
+         },
+         hidePicker: function() {
+            this.playAnimation('hideDatePicker');
+            this.debounce('hide', () => {
+               this.$.picker.close();
+            }, 300);
+         }
+
+      });
+   </script>
+
+</dom-module>
