@@ -28,11 +28,13 @@
             },
             minValue: {
                type: Number,
-               value: 0
+               value: 0,
+               observer: 'updateWheel'
             },
             maxValue: {
                type: Number,
-               value: 10
+               value: 10,
+               observer: 'updateWheel'
             },
             realMaxValue: {
                type: Number,
@@ -49,7 +51,8 @@
             currentValue: {
                type: Number,
                value: 0,
-               notify: true
+               notify: true,
+               observer: 'updateWheel'
             }
          },
 
