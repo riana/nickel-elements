@@ -63,7 +63,7 @@
       <nickel-modal id="picker">
          <div class="layout horizontal center">
             <div class="picker-container flex layout horizontal">
-               <nickel-wheel-number class="flex" current-value="{{day}}" min-value="1" max-value="31"></nickel-wheel-number>
+               <nickel-wheel-number class="flex" current-value="{{day}}" min-value="1" max-value="{{daysInMonth}}"></nickel-wheel-number>
                <nickel-wheel-array class="flex" items="{{months}}" wheel-index="{{currentMonthIndex}}"></nickel-wheel-array>
                <nickel-wheel-number class="flex" current-value="{{year}}" min-value="1930" max-value="2016"></nickel-wheel-number>
             </div>
@@ -90,6 +90,11 @@
             currentMonthIndex: {
                type: Number,
                value: 3
+            },
+            daysInMonth: {
+               type: Number,
+               computed: 'updateDaysInMonth(currentMonthIndex, year)',
+               notify: true
             },
             year: {
                type: Number,
@@ -149,6 +154,13 @@
             this.debounce('hide', () => {
                this.$.picker.close();
             }, 300);
+         },
+         updateDaysInMonth: function() {
+            var daysInMonth =  new Date(this.year, this.currentMonthIndex + 1, 0).getDate();
+            if(this.day > daysInMonth){
+               this.day = daysInMonth;
+            }
+            return daysInMonth;
          }
 
       });
