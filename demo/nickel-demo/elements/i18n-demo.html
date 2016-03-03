@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-i18n.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-wheel-array.html">
+
+<dom-module id="i18n-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
+
+      <nickel-i18n resource="./res/i18n/home.json" strings="{{i18nStrings}}" lang="{{lang}}" default-lang="en"></nickel-i18n>
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <paper-icon-button icon="icons:arrow-back" on-tap="popPage"></paper-icon-button>
+               <div class="title">i18n demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical center center-justified">
+
+               <nickel-wheel-array items="{{langs}}" wheel-index="{{langIndex}}"></nickel-wheel-array>
+
+               <div>[[i18nStrings.welcome]]</div>
+            </div>
+         </div>
+      </nickel-screen>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "i18n-demo",
+         behaviors: [NickelBehaviors.PagingBehavior],
+         properties: {
+            langs: {
+               type: Array,
+               value: ['en', 'es', 'fr']
+            },
+            lang: {
+               type: String,
+               value: 'fr',
+               observer: '_updateLangIndex'
+            },
+            langIndex: {
+               type: Number,
+               value: 0,
+               observer: '_updateLang'
+            },
+            i18nStrings: {
+               type: String,
+               value: ''
+            }
+         },
+         _updateLangIndex: function() {
+            if (this.langs) {
+               this.langIndex = this.langs.indexOf(this.lang);
+            }
+         },
+         _updateLang: function() {
+            if (this.langs) {
+               this.lang = this.langs[this.langIndex];
+            }
+         }
+      });
+   </script>
+
+</dom-module>
