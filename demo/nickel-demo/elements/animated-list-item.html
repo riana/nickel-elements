@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<!--Imports go here-->
+
+<dom-module id="animated-list-item">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         .item-text {
+            margin: 20px;
+         }
+      </style>
+
+      <paper-material class="layout horizontal center" >
+         <div class="item-text flex">[[item.label]]</div>
+         <paper-icon-button icon="delete" on-tap="deleteItem"></paper-icon-button>
+      </paper-material>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "animated-list-item",
+         behaviors: [
+            Polymer.NeonAnimationRunnerBehavior
+         ],
+         properties: {
+            item: {
+               type: Object,
+               value: ''
+            },
+            entryAnimation: {
+               value: 'scale-up-animation'
+            },
+            exitAnimation: {
+               value: 'slide-right-animation'
+            }
+         },
+         attached: function() {
+            this.playAnimation('entry');
+         },
+         detached: function() {
+            this.playAnimation('exit');
+         },
+         deleteItem: function() {
+            this.playAnimation('exit');
+            this.debounce('delete', () => {
+               this.fire('delete', this.item);
+            }, 300);
+
+         }
+      });
+   </script>
+
+</dom-module>

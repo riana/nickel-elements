@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../bower_components/nickel-elements/nickel-screen.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-icon-rate.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
+
+<link rel="import" href="./animated-list-item.html">
+<dom-module id="animated-list-demo">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         nickel-icon-rate {
+            --selected-icon-color: #ff4081;
+            --default-icon-color: #aaa;
+         }
+
+         paper-fab {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+         }
+
+         animated-list-item {
+            margin: 10px;
+         }
+      </style>
+
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <paper-icon-button icon="icons:arrow-back" on-tap="popPage"></paper-icon-button>
+               <div class="title">Icon Rate Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical">
+               <div style="width:100%; height:100%; overflow:auto;">
+                  <template is="dom-repeat" items="{{listItems}}" as="item">
+                     <animated-list-item item="[[item]]" on-delete="deleteItem"></animated-list-item>
+                  </template>
+               </div>
+               <paper-fab icon="add" on-tap="addItem"></paper-fab>
+            </div>
+         </div>
+      </nickel-screen>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "animated-list-demo",
+         behaviors: [NickelBehaviors.PagingBehavior],
+         properties: {
+            listItems: {
+               type: Array,
+               value: []
+            }
+         },
+         ready: function() {
+            for (var i = 0; i < 5; i++) {
+               this.push('listItems', {
+                  label: "Item #" + i
+               });
+            }
+         },
+         addItem: function() {
+            this.push("listItems", {
+               label: "Item #" + (this.listItems.length + 1)
+            });
+         },
+         deleteItem: function(e) {
+            var index = this.listItems.indexOf(e.detail);
+            this.splice("listItems", index, 1);
+         }
+      });
+   </script>
+
+</dom-module>
