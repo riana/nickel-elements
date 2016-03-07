@@ -6,7 +6,7 @@
 
 <dom-module id="nickel-json">
 
-    <template>
+   <template>
       <style is="custom-style">
          :host {
             display: block;
@@ -16,55 +16,60 @@
       <!--Template goes here-->
       <iron-ajax id="ajaxQuery" url="./{{filePath}}" handle-as="json" last-response="{{lastResponse}}" debounce-duration="300" on-response="_onHostedResponse"></iron-ajax>
       <nickel-invoke id="loadJsonNative" operation-id="loadJson" last-response={{nativeResponse}}></nickel-invoke>
-    </template>
+   </template>
 
-    <script>
+   <script>
       "use strict";
-         Polymer({
-            is: "nickel-json",
-            properties: {
-               filePath : {
-                  type: String
-               },
-               lastResponse: {
-                  type: Object,
-                  notify: true
-               },
-               nativeResponse: {
-                  type: Object,
-                  observer: '_onNativeResponse'
-               }
+      Polymer({
+         is: "nickel-json",
+         properties: {
+            filePath: {
+               type: String
             },
-            generateRequest: function() {
-               if (!window.webkit) {
-                  this.$.ajaxQuery.generateRequest();
+            lastResponse: {
+               type: Object,
+               notify: true
+            },
+            nativeResponse: {
+               type: Object,
+               observer: '_onNativeResponse'
+            }
+         },
+         generateRequest: function() {
+            if (!window.webkit) {
+               this.$.ajaxQuery.generateRequest();
+            } else {
+               let nativePath = this._formatPath(this.filePath);
+               this.$.loadJsonNative.data = {
+                  file: nativePath
+               }
+               this.$.loadJsonNative.generateRequest();
+            }
+         },
+         _formatPath: function(input) {
+            var start = input.lastIndexOf("./");
+            if (start === -1) {
+               start = 0;
+            } else {
+               start = 2;
+            }
+            return input.substring(start, input.lastIndexOf(".json"));
+         },
+         _onNativeResponse: function() {
+            if (this.nativeResponse.data) {
+               this.lastResponse = JSON.parse(this.nativeResponse.data);
+               if (this.lastResponse.error) {
+                  this.fire('error', this.lastResponse);
                } else {
-                  let nativePath = this._formatPath(this.filePath);
-                  this.$.loadJsonNative.data = {
-                     file: nativePath
-                  }
-                  this.$.loadJsonNative.generateRequest();
-               }
-            },
-            _formatPath: function(input) {
-               var start = input.lastIndexOf("./");
-               if(start === -1){
-                  start = 0;
-               }else{
-                  start = 2;
-               }
-               return input.substring(start, input.lastIndexOf(".json"));
-            },
-            _onNativeResponse: function() {
-               if (this.nativeResponse.data) {
-                  this.lastResponse = JSON.parse(this.nativeResponse.data);
                   this.fire('response', this.lastResponse);
                }
-            },
-            _onHostedResponse: function() {
-               this.fire('response', this.lastResponse);
+
             }
-        });
-    </script>
+         },
+         _onHostedResponse: function() {
+            this.fire('response', this.lastResponse);
+         }
+      });
+   </script>
 
 </dom-module>

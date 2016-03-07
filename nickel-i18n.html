@@ -4,58 +4,65 @@
 
 <dom-module id="nickel-i18n">
 
-  <template>
-    <style is="custom-style">
-      :host {
-        display: block;
-      }
-    </style>
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+      </style>
 
-    <!--Template goes here-->
-    <nickel-json id="loadStrings" file-path="{{path}}" last-response="{{strings}}"></nickel-json>
+      <!--Template goes here-->
+      <nickel-json id="loadStrings" file-path="{{path}}" last-response="{{strings}}" on-error="{{_notAvailable}}"></nickel-json>
 
-  </template>
+   </template>
 
-  <script>
-    "use strict";
-    Polymer({
-      is: "nickel-i18n",
-      properties: {
-        lang: {
-          type: String,
-          value: ''
-        },
-        defaultLang: {
-          type: String,
-          value: 'en'
-        },
-        resource: {
-          type: String,
-          value: ''
-       },
-        path: {
-           type: String,
-           computed: '_updatePath(resource, lang, defaultLang)'
-        },
-        strings: {
-          type: Object,
-          notify: true
-        }
-      },
-      _updatePath: function(resource, lang, defaultLang) {
-        if (this.resource && this.resource.length > 0) {
-           var lang = '';
-          if(this.lang && this.lang.length > 0 && this.lang !== this.defaultLang){
-             lang = '_' + this.lang;
-          }
-          var res = this.resource .substring(0, this.resource.lastIndexOf(".json"))
-          var path = res + lang + ".json"
-          this.$.loadStrings.filePath = path;
+   <script>
+      "use strict";
+      Polymer({
+         is: "nickel-i18n",
+         properties: {
+            lang: {
+               type: String,
+               value: ''
+            },
+            defaultLang: {
+               type: String,
+               value: 'en'
+            },
+            resource: {
+               type: String,
+               value: ''
+            },
+            path: {
+               type: String,
+               computed: '_updatePath(resource, lang, defaultLang)'
+            },
+            strings: {
+               type: Object,
+               notify: true
+            }
+         },
+         _notAvailable: function(e){
+            // TODO : Handle default lang when unavailable
+            this.lang = this.defaultLang;
+         },
+         _updatePath: function(resource, lang, defaultLang) {
+            if (this.resource && this.resource.length > 0) {
+               var lang = '';
+               if (this.lang && this.lang.length > 0 && this.lang !== this.defaultLang) {
+                  lang = '_' + this.lang;
+               }
+               var res = this.resource.substring(0, this.resource.lastIndexOf(".json"))
+               var path = res + lang + ".json"
+               this.$.loadStrings.filePath = path;
 
-          this.$.loadStrings.generateRequest();
-        }
-      }
-    });
-  </script>
+               this.debounce('load', () => {
+                  this.$.loadStrings.generateRequest();
+               }, 100);
+
+            }
+         }
+      });
+   </script>
 
 </dom-module>
