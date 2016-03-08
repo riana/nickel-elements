@@ -58,19 +58,16 @@
          _onNativeResponse: function() {
             if (this.nativeResponse.data) {
                this.lastResponse = JSON.parse(this.nativeResponse.data);
-               if (this.lastResponse.error) {
-                  this.fire('error', this.lastResponse);
-               } else {
-                  this.fire('response', this.lastResponse);
-               }
-
+               this.fire('response', this.lastResponse);
+            } else if (this.nativeResponse.error) {
+               this.fire('error');
             }
          },
          _onHostedResponse: function() {
             this.fire('response', this.lastResponse);
          },
-         _onHostedError(){
-            this.fire('error', this.lastResponse);
+         _onHostedError() {
+            this.fire('error');
          }
       });
    </script>
