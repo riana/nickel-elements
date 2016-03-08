@@ -14,7 +14,7 @@
       </style>
 
       <!--Template goes here-->
-      <iron-ajax id="ajaxQuery" url="./{{filePath}}" handle-as="json" last-response="{{lastResponse}}" debounce-duration="300" on-response="_onHostedResponse"></iron-ajax>
+      <iron-ajax id="ajaxQuery" url="./{{filePath}}" handle-as="json" last-response="{{lastResponse}}" debounce-duration="300" on-response="_onHostedResponse" on-error="_onHostedError"></iron-ajax>
       <nickel-invoke id="loadJsonNative" operation-id="loadJson" last-response={{nativeResponse}}></nickel-invoke>
    </template>
 
@@ -68,6 +68,9 @@
          },
          _onHostedResponse: function() {
             this.fire('response', this.lastResponse);
+         },
+         _onHostedError(){
+            this.fire('error', this.lastResponse);
          }
       });
    </script>
