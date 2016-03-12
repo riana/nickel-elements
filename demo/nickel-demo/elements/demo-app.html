@@ -17,6 +17,7 @@
 <link rel="import" href="./date-picker-demo.html">
 <link rel="import" href="./i18n-demo.html">
 <link rel="import" href="./animated-list-demo.html">
+<link rel="import" href="./demo-menu.html">
 
 <dom-module id="demo-app">
 
@@ -33,6 +34,7 @@
          }
       </style>
       <neon-animated-pages selected="{{currentPage}}" attr-for-selected="id">
+         <demo-menu id="menu"></demo-menu>
          <storage-markup-demo id="objectsListEditor"></storage-markup-demo>
          <object-editor id="edit"></object-editor>
          <wheel-picker-demo id="wheelPicker"></wheel-picker-demo>
@@ -65,7 +67,6 @@
          },
          ready: function() {
             this.setup((page, e) => {
-
                if (e) {
                   var pageEl = document.getElementById(page);
                   if(pageEl.prepageForTransition){
@@ -73,12 +74,8 @@
                   }
                }
                this.currentPage = page;
-
-
             });
-            // this.pushPage("objectsListEditor");
-            // this.pushPage("animatedList");
-            this.pushPage("i18n");
+            this.pushPage("menu");
          }
       });
    </script>

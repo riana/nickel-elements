@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
+
+<dom-module id="demo-menu">
+
+   <template>
+      <style is="custom-style">
+         :host {
+            display: block;
+         }
+
+         paper-material{
+            margin: 0 10px;
+            cursor: pointer;
+         }
+
+         .demo-card-content {
+            margin: 10px;
+         }
+
+         .title {
+            font-family: "Roboto";
+            font-size: 18px;
+         }
+         .description {
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: lighter;
+         }
+      </style>
+
+      <nickel-screen>
+         <div class="fit layout vertical">
+            <nickel-ios-filler></nickel-ios-filler>
+            <paper-toolbar>
+               <div class="title">Nickel Demo</div>
+            </paper-toolbar>
+            <div class="flex layout vertical">
+               <template is="dom-repeat" items="[[demos]]" as="demo">
+                  <paper-material on-tap="openDemo">
+                     <div class="demo-card-content">
+                        <div class="title">[[demo.label]]</div>
+                        <div class="description">[[demo.description]]</div>
+                     </div>
+                  </paper-material>
+               </template>
+            </div>
+         </div>
+      </nickel-screen>
+
+   </template>
+
+   <script>
+      "use strict";
+      Polymer({
+         is: "demo-menu",
+         behaviors: [NickelBehaviors.PagingBehavior],
+         properties: {
+            demos: {
+               type: Array,
+               value: [{
+                     label: 'Editable Items List',
+                     description: 'Storage, Navigation',
+                     page: 'objectsListEditor'
+                  }, {
+                     label: 'Wheel Picker',
+                     description: 'Edit value with pickers: in page or modal',
+                     page: 'wheelPicker'
+                  },
+                  {
+                     label: 'Rate element',
+                     description: 'A custom control for visual rating',
+                     page: 'iconRate'
+                  }
+               ]
+            }
+         },
+         openDemo(e) {
+            var demo = e.model.demo;
+            console.log(demo);
+            this.pushPage(demo.page);
+         }
+      });
+   </script>
+
+</dom-module>
