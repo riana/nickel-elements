@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/nickel-elements/nickel-ios-filler.html">
 
 <link rel="import" href="../bower_components/nickel-elements/nickel-local-notification-behavior.html">
+<link rel="import" href="../bower_components/nickel-elements/nickel-paging-behavior.html">
 
 <!--Imports go here-->
 
@@ -69,7 +70,7 @@
       "use strict";
       Polymer({
          is: "notification-demo",
-         behaviors: [NickelBehaviors.LocalNotificationBehavior],
+         behaviors: [NickelBehaviors.LocalNotificationBehavior, NickelBehaviors.PagingBehavior],
          properties: {
             notifications: {
                type: Array,

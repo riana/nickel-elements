@@ -36,7 +36,7 @@
             <paper-toolbar>
                <div class="title">Nickel Demo</div>
             </paper-toolbar>
-            <div class="flex layout vertical">
+            <div class="flex layout vertical" style="overflow:auto;">
                <template is="dom-repeat" items="[[demos]]" as="demo">
                   <paper-material on-tap="openDemo">
                      <div class="demo-card-content">
@@ -82,7 +82,14 @@
                      label: 'i18n',
                      description: 'Internationalization from json string resources',
                      page: 'i18n'
+                  },
+                  {
+                     label: 'Local notification',
+                     description: 'Schedule and display local notification',
+                     page: 'notification'
                   }
+
+
                ]
             }
          },
