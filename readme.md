@@ -22,6 +22,12 @@ It contains also useful elements for user interactions or utilities such as :
 * Modal view
 * Internationalization
 
+# How to run the demo
+
+* open **NickelDemo.xcworkspace** with XCode
+* from the terminal at **demo/NickelDemo-iOS/** launch 'pod update'
+* run the project from XCode
+
 # How to use it on iOS?
 
 * Create a native iOS app in XCode using Swift

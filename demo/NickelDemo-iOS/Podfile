@@ -4,8 +4,7 @@
 use_frameworks!
 
 target 'NickelDemo' do
-#   pod 'NickelSwift', :git => 'https://github.com/riana/NickelSwift.git'
-    pod 'NickelSwift', :path => '~/Documents/projects/riana.io/Nickel/NickelSwift'
+   pod 'NickelSwift', :git => 'https://github.com/riana/NickelSwift.git'
 end
 
 target 'NickelDemoTests' do
