@@ -22,7 +22,7 @@
          }
       </style>
 
-      <nickel-i18n resource="./res/i18n/home.json" strings="{{i18nStrings}}" lang="{{lang}}" default-lang="en"></nickel-i18n>
+      <nickel-i18n resource="./res/i18n/home.json" strings="{{i18nStrings}}" lang="{{lang}}" default-lang="en" locale="{{locale}}"></nickel-i18n>
       <nickel-screen>
          <div class="fit layout vertical">
             <nickel-ios-filler></nickel-ios-filler>
@@ -32,6 +32,7 @@
             </paper-toolbar>
             <div class="flex layout vertical center center-justified">
 
+               <div>Device Lang : {{locale.lang}} - {{locale.country}}</div>
                <nickel-wheel-array items="{{langs}}" wheel-index="{{langIndex}}"></nickel-wheel-array>
 
                <div>[[i18nStrings.welcome]]</div>
@@ -64,6 +65,10 @@
             i18nStrings: {
                type: String,
                value: ''
+            },
+            locale: {
+               type: Object,
+               notify: true
             }
          },
          _updateLangIndex: function() {

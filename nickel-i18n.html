@@ -2,6 +2,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="./nickel-json.html">
 
+<link rel="import" href="./nickel-invoke.html">
+
 <dom-module id="nickel-i18n">
 
    <template>
@@ -12,7 +14,7 @@
       </style>
 
       <nickel-json id="loadStrings" file-path="{{path}}" last-response="{{strings}}" on-error="_notAvailable"></nickel-json>
-      
+      <nickel-invoke id="getLanguage" operation-id="getLanguage" last-response={{locale}}></nickel-invoke>
    </template>
 
    <script>
@@ -39,12 +41,22 @@
             strings: {
                type: Object,
                notify: true
+            },
+            locale: {
+               type: Object,
+               notify: true
             }
          },
-         _notAvailable: function(e){
+         ready() {
+            this.debounce("getLang", () => {
+               this.$.getLanguage.generateRequest();
+            }, 100);
+
+         },
+         _notAvailable(e) {
             this.lang = this.defaultLang;
          },
-         _updatePath: function(resource, lang, defaultLang) {
+         _updatePath(resource, lang, defaultLang) {
             if (this.resource && this.resource.length > 0) {
                var lang = '';
                if (this.lang && this.lang.length > 0 && this.lang !== this.defaultLang) {
