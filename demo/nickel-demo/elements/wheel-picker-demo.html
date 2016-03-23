@@ -128,12 +128,12 @@
             }
          },
 
-         showPicker: function() {
+         showPicker() {
             this.$.backdrop.open();
             this.playAnimation('showBackdrop');
          },
 
-         hidePicker: function() {
+         hidePicker() {
             this.playAnimation('hideBackdrop');
             this.debounce('hide', () => {
                this.$.backdrop.close();

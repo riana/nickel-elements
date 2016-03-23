@@ -46,12 +46,12 @@
                type: Array
             }
          },
-         ready: function() {
+         ready() {
             this.debounce('loadData', () => {
                this._loadAllObjects();
             }, 1000);
          },
-         _storeObject: function() {
+         _storeObject() {
             if (!this.currentId) {
                this.currentId = this.objects.length + 1;
             }
@@ -65,7 +65,7 @@
                this._loadAllObjects();
             });
          },
-         _loadAllObjects: function() {
+         _loadAllObjects() {
             // Use the StorageBehavior
             this.loadAll("TodoItem", (data) => {
                if(this.objects){
@@ -74,7 +74,7 @@
                this.objects = data;
             });
          },
-         _deleteObject: function(e) {
+         _deleteObject(e) {
             var item = e.model.obj;
             // Use the StorageBehavior
             this.delete("TodoItem", item, () => {

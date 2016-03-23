@@ -77,17 +77,17 @@
                value: []
             }
          },
-         ready: function() {
+         ready() {
             this.debounce("updateNotification", () => {
                this._updateScheduledNotifications();
             }, 200);
          },
-         _updateScheduledNotifications: function() {
+         _updateScheduledNotifications() {
             this.getScheduledNotifications((response) => {
                this.notifications = response.notifications;
             });
          },
-         _scheduleNotification: function() {
+         _scheduleNotification() {
             // repeat : None, Minute, Hour, Day
             var date = (new Date()).getTime() + 10 * 1000;
             var notification = {
@@ -100,7 +100,7 @@
                this._updateScheduledNotifications();
             });
          },
-         _cancelNotification: function(e) {
+         _cancelNotification(e) {
             var notificationId = e.model.notification.id;
             this.cancelNotification(notificationId, (response) => {
                this._updateScheduledNotifications();

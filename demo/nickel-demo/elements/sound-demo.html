@@ -80,14 +80,14 @@
                value: "Here's a text-to-speech demo"
             }
          },
-         speak: function() {
+         speak() {
             this.debounce('speak', () => {
                this.$.tts.text = this.ttsText;
                this.$.tts.doSpeak();
                console.log(this.ttsText);
             }, 100);
          },
-         playSound: function() {
+         playSound() {
             this.debounce('audio', () => {
             this.$.audio.play("./res/bell.mp3");
             }, 100);

@@ -139,23 +139,23 @@
                }
             }
          },
-         computeDisplayedDate: function(date) {
+         computeDisplayedDate(date) {
             if(this.months){
             return '' + this.day + ' ' + this.months[this.currentMonthIndex] + ' ' + this.year;
             }
             return '' + this.months
          },
-         pickDate: function() {
+         pickDate() {
             this.$.picker.open();
             this.playAnimation('showDatePicker');
          },
-         hidePicker: function() {
+         hidePicker() {
             this.playAnimation('hideDatePicker');
             this.debounce('hide', () => {
                this.$.picker.close();
             }, 300);
          },
-         updateDaysInMonth: function() {
+         updateDaysInMonth() {
             var daysInMonth =  new Date(this.year, this.currentMonthIndex + 1, 0).getDate();
             if(this.day > daysInMonth){
                this.day = daysInMonth;

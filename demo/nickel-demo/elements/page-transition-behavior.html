@@ -5,7 +5,7 @@
 <script>
    PageTransitionBehaviorImpl = {
 
-      startRippleTransition: function(event, sourceElement){
+      startRippleTransition(event, sourceElement){
 
          this.sharedElements = {
             'ripple': sourceElement,
@@ -30,7 +30,7 @@
             y: event.y || event.pageY
          };
       },
-      setupRippleTargetTransition: function(ripplePlaceholderElement, mainContainer){
+      setupRippleTargetTransition(ripplePlaceholderElement, mainContainer){
 
          // console.log("ripple : %o, container : %o", ripplePlaceholderElement, mainContainer);
 
@@ -72,11 +72,11 @@
          }];
       },
 
-      setupEntry: function(entryAnimation) {
+      setupEntry(entryAnimation) {
         console.log('setupEntry : %o', this);
       },
 
-      setupExit: function(entryAnimation) {
+      setupExit(entryAnimation) {
         console.log('setupEntry');
       }
    };

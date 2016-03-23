@@ -124,16 +124,16 @@
 
 
          },
-         ready: function() {
+         ready() {
             this.setupRippleTargetTransition(this.$.ripplePlaceholder, this.$.screen);
          },
 
-         _computeClass: function() {
+         _computeClass() {
             console.log(this.mode);
             return this.mode === "edit" ? 'ripple-edit' : 'ripple-add';
          },
 
-         prepageForTransition: function(e) {
+         prepageForTransition(e) {
             console.log("PrepageForTransition from : ", e.fromPage);
             if(e.data){
                this.editObject(e.data);
@@ -141,7 +141,7 @@
                this.createObject();
             }
          },
-         createObject: function() {
+         createObject() {
             this.mode = 'create';
             this.$.iosFiller.customStyle['--filler-background'] = '#ff4081';
             this.$.iosFiller.updateStyles();
@@ -150,7 +150,7 @@
             this.object = {};
 
          },
-         editObject: function(object) {
+         editObject(object) {
             this.mode = 'edit';
             this.$.iosFiller.customStyle['--filler-background'] = '#FFEE58';
             this.$.iosFiller.updateStyles();
@@ -158,24 +158,24 @@
             this.title = this.object.title;
             this.details = this.object.details;
          },
-         _isValid: function() {
+         _isValid() {
             return this.title.length > 0;
          },
-         _isNewObject: function() {
+         _isNewObject() {
             return !this.object._id || this.object._id.length === 0;
          },
-         _save: function() {
+         _save() {
             this.object.title = this.title;
             this.object._clientDate = (new Date()).getTime();
             this.object.details = this.details;
             this.$.storage.store(this.object);
             this.popPage();
          },
-         _delete: function() {
+         _delete() {
             this.$.storage.remove(this.object);
             this.popPage();
          },
-         _close: function() {
+         _close() {
             this.popPage();
          }
       });

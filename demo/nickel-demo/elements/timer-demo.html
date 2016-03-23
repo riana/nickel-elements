@@ -72,7 +72,7 @@
                value: false
             }
          },
-         start: function() {
+         start() {
             this.started = true;
             this.remaining = 20;
             this.debounce('play', () => {
@@ -80,14 +80,14 @@
             }, 200);
             this.$.nickelAwake.enterAwakeMode();
          },
-         stop: function() {
+         stop() {
             this.started = false;
             this.$.timer.stop();
             this.debounce('play', () => {
                this.$.nickelAwake.exitAwakeMode();
             }, 100);
          },
-         timestep: function() {
+         timestep() {
             this.remaining--;
             if (this.remaining === 0) {
                this.stop();

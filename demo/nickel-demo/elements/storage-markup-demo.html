@@ -140,7 +140,7 @@
                value: ['title', 'value']
             }
          },
-         ready: function() {
+         ready() {
 
             this.sharedElements = {
                'ripple': this.$.fabButton,
@@ -163,7 +163,7 @@
             this.loadData();
          },
 
-         loadData: function() {
+         loadData() {
             this.debounce('loadData', () => {
                this.$.storage.update();
             }, 1000);
@@ -179,18 +179,18 @@
             this.objects = objects;
          },
 
-         objectsEmpty: function() {
+         objectsEmpty() {
             return this.objects.length === 0;
          },
 
-         _storeObject: function(e) {
+         _storeObject(e) {
             this.startRippleTransition(e, this.$.fabButton);
             this.fire("add-object");
 
             // Creation MODE
             this.pushPage("edit");
          },
-         _editObject: function(e) {
+         _editObject(e) {
             var item = e.model.obj;
             this.startRippleTransition(e, e.target);
 
@@ -198,13 +198,13 @@
             this.pushPage("edit", item);
          },
 
-         _dataUpdated: function(e) {
+         _dataUpdated(e) {
             for (var d of this.objects) {
                d.date = new Date(d._date);
             }
          },
 
-         _testQuery: function(e) {
+         _testQuery(e) {
             var query = "refType = 'TodoItem' and propertyName = 'title' and stringPropertyValue = 'toto'";
             this.$.storage.queryIndex('TodoItem', query, (e) => {
                this.$.toast.text = JSON.stringify(e);
@@ -212,7 +212,7 @@
             })
          },
 
-         _dropDataBase: function(e) {
+         _dropDataBase(e) {
             this.$.storage.drop((e) => {
                this.$.toast.text = 'DB Dropped';
                this.$.toast.open();

@@ -67,19 +67,19 @@
                value: []
             }
          },
-         ready: function() {
+         ready() {
             for (var i = 0; i < 5; i++) {
                this.push('listItems', {
                   label: "Item #" + i
                });
             }
          },
-         addItem: function() {
+         addItem() {
             this.push("listItems", {
                label: "Item #" + (this.listItems.length + 1)
             });
          },
-         deleteItem: function(e) {
+         deleteItem(e) {
             var index = this.listItems.indexOf(e.detail);
             this.splice("listItems", index, 1);
          }
