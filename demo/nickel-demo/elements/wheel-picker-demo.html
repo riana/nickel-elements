@@ -41,9 +41,40 @@
          }
 
          #backdrop {
-            z-index: 111;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 100;
             width: 100%;
-            bottom: 0;
+            height: 100%;
+         }
+         #backdrop.visible {
+            top: 0;
+            left: 0;
+            transition: top ease-in 0.3s
+         }
+
+         #bd {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            background: black;
+            opacity: 0.7;
+            transition: top ease-out 0.3s
+         }
+
+         #bd.visible{
+            top: 0;
+            left: 0;
+            transition: top ease-in 0.3s
+         }
+
+         .bd-content {
+            background: white;
+            z-index: 110;
          }
 
          paper-icon-button.big {
@@ -74,12 +105,13 @@
          </div>
 
       </nickel-screen>
-      <nickel-modal id="backdrop">
-         <div class="layout horizontal center">
+      <div id="bd"></div>
+      <div id="backdrop" class="layout vertical end-justified">
+         <div class="bd-content layout horizontal center">
             <nickel-wheel-number class="flex embedded-wheel" current-value="{{wheelValue}}" min-value="-5" max-value="5"></nickel-wheel-number>
             <paper-icon-button class="big" icon="icons:check" on-tap="hidePicker"></paper-icon-button>
          </div>
-      </nickel-modal>
+      </div>
    </template>
 
    <script>
@@ -129,16 +161,16 @@
          },
 
          showPicker() {
-            this.$.backdrop.open();
-            this.playAnimation('showBackdrop');
+            this.$.bd.classList.add("visible");
+            this.$.backdrop.classList.add("visible");
+            // this.$.backdrop.open();
+            // this.playAnimation('showBackdrop');
          },
 
          hidePicker() {
-            this.playAnimation('hideBackdrop');
-            this.debounce('hide', () => {
-               this.$.backdrop.close();
-            }, 300);
-
+            this.$.bd.classList.remove("visible");
+            this.$.backdrop.classList.remove("visible");
+            
 
          }
       });
