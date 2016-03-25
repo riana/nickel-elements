@@ -11,17 +11,17 @@
 
       mockedOperations: [],
 
-      ready: function() {
+      ready() {
          if (typeof window.NickelBridge == "undefined") {
             window.NickelBridge = this;
          }
       },
 
-      getCurrentRuntime: function(){
+      getCurrentRuntime(){
          return window.webkit? 'iOS' : 'web'
       },
 
-      handleMessage: function(data) {
+      handleMessage(data) {
          if (this.responseCallbacks[data.operation]) {
             this.responseCallbacks[data.operation](data.data);
             delete this.responseCallbacks[data.operation];
@@ -32,7 +32,7 @@
          }
       },
 
-      postMessage: function(operation, messageBody, callback) {
+      postMessage(operation, messageBody, callback) {
          if (!window.webkit) {
             if (this.mockedOperations[operation]) {
                var returnValue = this.mockedOperations[operation](messageBody);

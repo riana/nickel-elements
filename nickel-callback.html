@@ -31,7 +31,7 @@
                notify: true
             }
          },
-         _propertiesChanged: function() {
+         _propertiesChanged() {
             if (this.operationId) {
                this.operationCallbacks[this.operationId] = (data) => {
                   this.lastReceivedData = data;
@@ -39,7 +39,7 @@
                };
             }
          },
-         _internalCallback: function(data) {
+         _internalCallback(data) {
             this.lastReceivedData = data;
             this.fire("receive-data", data);
          }

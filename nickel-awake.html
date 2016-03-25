@@ -24,10 +24,10 @@
       "use strict";
          Polymer({
             is: "nickel-awake",
-            enterAwakeMode: function(){
+            enterAwakeMode(){
                this.$.enableAwakeMode.generateRequest();
             },
-            exitAwakeMode: function(){
+            exitAwakeMode(){
                this.$.disableAwakeMode.generateRequest();
             }
         });
