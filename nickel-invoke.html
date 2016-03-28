@@ -37,7 +37,7 @@
             // setMockedOperation(operation){
             //    window.NativeBridge.mockedOperations[this.operationId] = operation;
             // },
-            generateRequest: function() {
+            generateRequest() {
                this.postMessage(this.operationId, this.data, (response) => {
                   this.lastResponse = response;
                   this.fire("response", response);

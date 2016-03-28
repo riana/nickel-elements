@@ -78,7 +78,7 @@
                observer: '_updateImages'
             }
          },
-         _updateImages: function() {
+         _updateImages() {
             var newItems = [];
             for (var i = 0; i < this.maxValue; i++) {
                newItems.push({
@@ -87,12 +87,12 @@
             }
             this.items = newItems;
          },
-         _itemState: function(currentValue, index) {
+         _itemState(currentValue, index) {
             var item = this.items[index];
             item.state = index < this.currentValue ? 'active' : 'inactive';
             return item.state;
          },
-         _updateValue: function(e) {
+         _updateValue(e) {
             this.currentValue = e.model.index + 1;
          }
       });

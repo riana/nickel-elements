@@ -8,7 +8,7 @@
 
    StorageBehaviorImpl = {
 
-      save: function(type, object, indexedAttributes, callback) {
+      save(type, object, indexedAttributes, callback) {
          if (!object._id || object._id.length === 0) {
             object._id = this._newUId();
          }
@@ -26,7 +26,7 @@
             }
          });
       },
-      delete: function(type, object, callback) {
+      delete(type, object, callback) {
          if (object._id) {
             var data = {
                type: type,

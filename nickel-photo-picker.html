@@ -29,10 +29,10 @@
                   value: {}
                }
             },
-            pickImage: function() {
+            pickImage() {
                this.$.selectImage.generateRequest();
             },
-            _onImageSelected: function(data) {
+            _onImageSelected(data) {
                if(this.responseData.image){
                   let base64Image = this.responseData.image;
                   this.fire('photo-picked', base64Image);

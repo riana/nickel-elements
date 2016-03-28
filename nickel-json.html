@@ -35,7 +35,7 @@
                observer: '_onNativeResponse'
             }
          },
-         generateRequest: function() {
+         generateRequest() {
             if (!window.webkit) {
                this.$.ajaxQuery.generateRequest();
             } else {
@@ -46,7 +46,7 @@
                this.$.loadJsonNative.generateRequest();
             }
          },
-         _formatPath: function(input) {
+         _formatPath(input) {
             var start = input.lastIndexOf("./");
             if (start === -1) {
                start = 0;
@@ -55,7 +55,7 @@
             }
             return input.substring(start, input.lastIndexOf(".json"));
          },
-         _onNativeResponse: function() {
+         _onNativeResponse() {
             if (this.nativeResponse.data) {
                this.lastResponse = JSON.parse(this.nativeResponse.data);
                this.fire('response', this.lastResponse);
@@ -63,7 +63,7 @@
                this.fire('error');
             }
          },
-         _onHostedResponse: function() {
+         _onHostedResponse() {
             this.fire('response', this.lastResponse);
          },
          _onHostedError() {

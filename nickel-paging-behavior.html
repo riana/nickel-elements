@@ -24,11 +24,11 @@
 
       },
 
-      setup: function(callback) {
+      setup(callback) {
          this.callback.operation = callback;
       },
 
-      popPage: function() {
+      popPage() {
          if (this.pageStack.length > 1) {
             var previousPage = this.pageStack[this.pageStack.length - 1];
             this.pageStack.splice(this.pageStack.length - 1, 1);
