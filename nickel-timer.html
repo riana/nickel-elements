@@ -33,7 +33,7 @@
 
          },
          interval: 0,
-         start: function() {
+         start() {
             if (this.getCurrentRuntime() !== 'iOS') {
                this.elapsedTime = 0;
                this.timeStepData = {
@@ -48,14 +48,14 @@
             }
 
          },
-         stop: function() {
+         stop() {
             if (this.getCurrentRuntime() !== 'iOS') {
                clearInterval(this.interval);
             } else {
                this.$.stopTimer.generateRequest();
             }
          },
-         _timeStep: function() {
+         _timeStep() {
             this.fire('timestep', this.timeStepData);
          }
       });

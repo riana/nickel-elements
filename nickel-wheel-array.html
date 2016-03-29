@@ -45,10 +45,10 @@
                   observer: 'updateWheel'
                }
             },
-            ready: function() {
+            ready() {
                this.updateWheel();
             },
-            updateWheel: function(e) {
+            updateWheel(e) {
                if (this.items) {
                   var index = this.wheelIndex;
                   this.currentItem = this.items[index];

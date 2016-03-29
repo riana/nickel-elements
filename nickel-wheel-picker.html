@@ -131,11 +131,11 @@
             endReached: false
          },
 
-         requestUpdate: function(){
+         requestUpdate(){
             this.fire('update-items', this.currentIndex);
          },
 
-         track: function(e) {
+         track(e) {
             var state = e.detail.state;
             var dy = e.detail.dy;
             if (state === 'end') {
@@ -181,7 +181,7 @@
                this.prevDy = dy;
             }
          },
-         _translate: function(translateY, element) {
+         _translate(translateY, element) {
             var isWebkit = document.body.style.webkitTransform !== undefined;
             var transform = "translateY(" + translateY.toString() + "%)";
             if (isWebkit) {

@@ -56,15 +56,15 @@
             }
          },
 
-         ready: function() {
+         ready() {
             this.updateWheel();
          },
 
-         computeRealMax: function() {
+         computeRealMax() {
             return this.maxValue + 1;
          },
 
-         updateWheel: function(e) {
+         updateWheel(e) {
             var index = this.currentValue;
             this.currentItem = `${index}`;
 
