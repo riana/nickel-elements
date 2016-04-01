@@ -20,7 +20,7 @@ var appDir = './';
 
 
 gulp.task('default', function (callback) {
-	runSequence('update-nickel-elements', 'vulcanize', 'traceur', 'copy-index', 'inject-traceur', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
+	runSequence('update-nickel-elements', 'vulcanize', 'babel', 'copy-index', 'minify-html', 'minify-js', 'remove-temp', 'copy-res',
 		callback);
 });
 
@@ -72,27 +72,18 @@ gulp.task('vulcanize', function () {
 });
 
 
-
-
 gulp.task('copy-index', function () {
 	return gulp.src('build/vulcanized/index.html')
 		.pipe(rename('index.v.html'))
 		.pipe(gulp.dest(distDir));
 });
 
-gulp.task('traceur', function () {
+gulp.task('babel', function () {
 	return gulp.src('build/vulcanized/index.js')
-		// .pipe(traceur())
 		.pipe(babel({
             presets: ['es2015']
         }))
 		.pipe(rename('index.v.js'))
-		.pipe(gulp.dest(distDir));
-});
-
-gulp.task('inject-traceur', function () {
-	return gulp.src(distDir + '/index.v.html')
-		.pipe(rename('index.html'))
 		.pipe(gulp.dest(distDir));
 });
 
@@ -109,7 +100,7 @@ gulp.task('minify-html', function () {
 		jsSelector: 'script', //jsSelector: 'script[type!="text/x-handlebars-template"]',
 		css: false,
 	};
-	return gulp.src(distDir + '/index.html')
+	return gulp.src(distDir + '/index.v.html')
 		.pipe(minifyHTML({
 			quotes: true,
 			empty: true,
