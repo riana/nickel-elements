@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <link rel="import" href="../polymer/polymer.html">
-<!--Imports go here-->
 <script src="../Sortable/Sortable.js" charset="utf-8"></script>
-<!-- <script src="./lib/Sortable.js" charset="utf-8"></script> -->
 
 <dom-module id="nickel-dnd-container">
 
@@ -12,17 +10,10 @@
             display: block;
          }
       </style>
-
-      <!--Template goes here-->
       <content></content>
    </template>
 
    <script>
-      // Electron
-      if (typeof require === "function") {
-         var Sortable = require("./lib/Sortable.js");
-      }
-      // End Electron
       "use strict";
       Polymer({
          is: "nickel-dnd-container",
